@@ -53,30 +53,30 @@ GameOver = cc.Layer.extend
 
   _renderStats : (score, rank, result)->
     overBg = cc.LayerColor.create new cc.Color(0,0,0,0)
-    overBg.setOpacity 100
+    overBg.setOpacity 168
     @addChild overBg, 4
 
-    resultLabel = new cc.LabelTTF "0", "Arial", 76, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
+    resultLabel = new cc.LabelTTF "0", "Arial Bold", 76, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
     resultLabel.attr
       x : 160
-      y : cc.director.getWinSize().height - 50
+      y : cc.director.getWinSize().height - 90
     resultLabel.setColor cc.color(255,255,255,255)
     resultLabel.setString result
     @addChild resultLabel, 5
 
-    scoreLabel = new cc.LabelTTF "0", "Arial", 80, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
+    scoreLabel = new cc.LabelTTF "0", "Arial Bold", 80, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
     scoreLabel.attr
       x : 160
-      y : cc.director.getWinSize().height - 150
+      y : cc.director.getWinSize().height - 190
     scoreLabel.setColor cc.color(255,255,255,255)
 
     scoreLabel.setString score
     @addChild scoreLabel, 5
 
-    rankLabel = new cc.LabelTTF "0", "Arial", 120, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
+    rankLabel = new cc.LabelTTF "0", "Arial Bold", 120, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
     rankLabel.attr
       x : 160
-      y : cc.director.getWinSize().height - 280
+      y : cc.director.getWinSize().height - 320
     rankLabel.setColor cc.color(255,255,255,255)
 
     rankLabel.setString rank
@@ -85,7 +85,7 @@ GameOver = cc.Layer.extend
     rankMessageLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(100,0), cc.TEXT_ALIGNMENT_LEFT
     rankMessageLabel.attr
       x : 100
-      y : cc.director.getWinSize().height - 210
+      y : cc.director.getWinSize().height - 250
     rankMessageLabel.setColor cc.color(255,255,255,255)
 
     rankMessageLabel.setString "your rank is.."
@@ -94,7 +94,7 @@ GameOver = cc.Layer.extend
     scoreMessageLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(100,0), cc.TEXT_ALIGNMENT_LEFT
     scoreMessageLabel.attr
       x : 100
-      y : cc.director.getWinSize().height - 100
+      y : cc.director.getWinSize().height - 140
     scoreMessageLabel.setColor cc.color(255,255,255,255)
 
     scoreMessageLabel.setString "Score "

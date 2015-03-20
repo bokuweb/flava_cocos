@@ -59,7 +59,7 @@ gameLayer = cc.Layer.extend
     @_addStartButton()
 
     logo = cc.Sprite.create res.logo
-    logo.x = 88
+    logo.x = 83
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
     ###
@@ -143,7 +143,7 @@ gameLayer = cc.Layer.extend
   _renderCoverImage : ->
     coverImage = new cc.Sprite @_musicInfo.coverImage, cc.rect(0, 0, 60, 60)
     coverImage.attr
-      x: 60
+      x: 55
       y: cc.winSize.height - 110
     @addChild coverImage, 6
 
