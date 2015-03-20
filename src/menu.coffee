@@ -126,6 +126,7 @@ menu = cc.Layer.extend
         target.zIndex = @_selectedItemZIndex
 
         target.title.runAction cc.scaleTo(0.2, 0)
+        target.level.runAction cc.scaleTo(0.2, 0)
 
         for value,i in @_shownMusicItem when not value.hasSelected
           value.runAction cc.scaleTo(0.2, 0)
@@ -265,6 +266,7 @@ menu = cc.Layer.extend
       for value,i in @_shownMusicItem
         value.runAction(cc.scaleTo(0.2, 1))
         value.title.runAction(cc.scaleTo(0.2, 1))
+        value.level.runAction(cc.scaleTo(0.2, 1))
       #@_nextButton.runAction(cc.scaleTo(0.2, 1))
       #@_previousButton.runAction(cc.scaleTo(0.2, 1))
       for value,i  in @_shownMusicItem when value.hasSelected
