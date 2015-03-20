@@ -53,7 +53,7 @@ menu = cc.Layer.extend
     cc.eventManager.addListener(pagerToucheventListener.clone(), @_previousButton)
     @addChild(@_previousButton, @_previousButtonZIndex)
     ###
-    
+
     logo = cc.Sprite.create res.logo
     logo.x = 83
     logo.y = cc.director.getWinSize().height - 50
