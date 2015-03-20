@@ -2,7 +2,7 @@ gameLayer = cc.Layer.extend
   _noteOffsetX : 50
   _noteMarginX : 54
   _noteRemovesTiming : 0.2
-  _noteMaskHeight : 100
+  _noteMaskHeight : 130
   _playTime : 0
   _timeLabel : null
   _debugLabel : null
@@ -29,7 +29,7 @@ gameLayer = cc.Layer.extend
   _score :
     real : 0
     display : 0
-  _endTime : 5
+  _endTime : 30
   _judgeCount :
     great : 0
     good : 0
@@ -62,7 +62,7 @@ gameLayer = cc.Layer.extend
     logo.x = 88
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
-    
+    ###
     @_timeLabel = new cc.LabelTTF "0", "Arial", 12
     @_timeLabel.attr
       x : 225
@@ -75,7 +75,7 @@ gameLayer = cc.Layer.extend
       y: cc.winSize.height - 200
     @_debugLabel.setColor cc.color(25,25,25,255)      
     @addChild @_debugLabel, 99      
-
+    ###
   update: ->
     @_measureMusicTime()
     @_appendNote()
@@ -348,10 +348,10 @@ gameLayer = cc.Layer.extend
     if @_startTime isnt 0 then (new Date() - @_startTime) / 1000 else 0
 
   _checkGameEnd : ->
-    @_debugLabel.setString "checkGameEnd"
+    #@_debugLabel.setString "checkGameEnd"
     if @_getCurrentTime() >= @_endTime and @_status is "playing"
       @_status = "preClose"
-      @_debugLabel.setString "preClose"
+      #@_debugLabel.setString "preClose"
       @unschedule(@_checkGameEnd)
       @schedule(@_closeGame, 0.01)
 
@@ -359,7 +359,7 @@ gameLayer = cc.Layer.extend
     @_volume -= 0.01
     @_music.setMusicVolume(@_volume)
     if @_volume <= 0 and @_status = "preClose"
-      @_debugLabel.setString "Close"
+      #@_debugLabel.setString "Close"
       @_status = "close"
 
       @overBackground = cc.Sprite.create(res.backgroundImage)
