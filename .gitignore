@@ -1,0 +1,5 @@
+frameworks/
+tools/
+src/*.js
+main.js
+src/musiclist.js
