@@ -141,7 +141,7 @@ gameLayer = cc.Layer.extend
     title = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     title.attr
       x : 210
-      y : cc.winSize.height - 105
+      y : cc.winSize.height - 109
 
     text = """
       #{@_musicInfo.title}

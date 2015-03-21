@@ -327,8 +327,9 @@ menu = cc.Layer.extend
           )
         )
         value.title.runAction(cc.sequence(cc.fadeOut(0.3)))
-      @_itemInfo.runAction(cc.sequence(cc.fadeOut(0.3)))
-      @_enterButton.runAction(cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)))
+      @_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
+      @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))
+      @_enterButton.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       return true
     return false
 
