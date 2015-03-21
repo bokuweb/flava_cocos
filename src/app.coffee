@@ -2,7 +2,7 @@ gameLayer = cc.Layer.extend
   _noteOffsetX : 50
   _noteMarginX : 54
   _noteRemovesTiming : 0.2
-  _noteMaskHeight : 130
+  _noteMaskHeight : 160
   _playTime : 0
   _timeLabel : null
   _debugLabel : null
@@ -63,12 +63,6 @@ gameLayer = cc.Layer.extend
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
     ###
-    @_timeLabel = new cc.LabelTTF "0", "Arial", 12
-    @_timeLabel.attr
-      x : 225
-      y: cc.winSize.height - 170
-    @addChild @_timeLabel, 99
-
     @_debugLabel = new cc.LabelTTF "0", "Arial", 8
     @_debugLabel.attr
       x : 120
@@ -135,10 +129,6 @@ gameLayer = cc.Layer.extend
   _addMusicInfo : ->
     @_renderCoverImage()
     @_renderTitle()
-    #@_addArtist()
-    #@_renderLicense()
-    #@_addMode()
-    #@_addLevel()
 
   _renderCoverImage : ->
     coverImage = new cc.Sprite @_musicInfo.coverImage, cc.rect(0, 0, 60, 60)
@@ -159,7 +149,7 @@ gameLayer = cc.Layer.extend
       #{@_musicInfo.license}
       #{@_musicInfo.mode}
     """
-        
+
     title.setColor cc.color(51, 51, 51, 255)
     title.setString text
     @addChild title, 5
@@ -206,7 +196,6 @@ gameLayer = cc.Layer.extend
       event: cc.EventListener.TOUCH_ONE_BY_ONE
       swallowTouches: true
       onTouchBegan: @_onTouchBeganStart.bind(@)
-
     cc.eventManager.addListener eventListener.clone(), @startButton
 
   _addMode : ->
@@ -259,7 +248,6 @@ gameLayer = cc.Layer.extend
           cc.sequence(
             cc.fadeOut(0.3)
             cc.CallFunc.create(()=>
-              #@removeChild(value)
               if not value.clear
                 @_updateJudgeLabel("bad")
                 @_combo = 0
@@ -348,10 +336,8 @@ gameLayer = cc.Layer.extend
     if @_startTime isnt 0 then (new Date() - @_startTime) / 1000 else 0
 
   _checkGameEnd : ->
-    #@_debugLabel.setString "checkGameEnd"
     if @_getCurrentTime() >= @_endTime and @_status is "playing"
       @_status = "preClose"
-      #@_debugLabel.setString "preClose"
       @unschedule(@_checkGameEnd)
       @schedule(@_closeGame, 0.01)
 
@@ -359,14 +345,12 @@ gameLayer = cc.Layer.extend
     @_volume -= 0.01
     @_music.setMusicVolume(@_volume)
     if @_volume <= 0 and @_status = "preClose"
-      #@_debugLabel.setString "Close"
       @_status = "close"
 
       @overBackground = cc.Sprite.create(res.backgroundImage)
       @overBackground.x = cc.director.getWinSize().width / 2
       @overBackground.y = cc.director.getWinSize().height / 2
       @overBackground.opacity = 0
-      # background overlay
       @addChild @overBackground, 100
       @overBackground.runAction(
         cc.sequence(

@@ -76,26 +76,42 @@ menu = cc.Layer.extend
         hasSelected : false
 
       cc.eventManager.addListener(musicItemToucheventListener.clone(), item)
-      @addChild(item, @_notSelectedItemZIndex)
-      item.title = new cc.LabelTTF "", "Arial", 13
+      @addChild item, @_notSelectedItemZIndex
+      
+      item.title = new cc.LabelTTF "", "Arial", 12
       item.title.attr
         x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 175
+        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 172
         opacity: 0
         scale: 1
       item.title.setColor cc.color(25,25,25,255)
-      item.title.setString(value.title)
+      item.title.setString value.title
+
+      item.artist = new cc.LabelTTF "", "Arial", 11
+      item.artist.attr
+        x : (i % @_itemnumPerLine) * 105 + 55
+        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 185
+        opacity: 0
+        scale: 1
+      item.artist.setColor cc.color(25,25,25,255)
+      item.artist.setString value.artist
+
       @addChild item.title, @_notSelectedItemZIndex
+      @addChild item.artist, @_notSelectedItemZIndex
+
+      item.level = new cc.Sprite res.star, cc.rect(0, 0, 19*value.level, 18)
+      item.level.attr
+        x : (i % @_itemnumPerLine) * 105 + 55
+        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 200
+        opacity: 0
+        scale: 0.5
+      @addChild item.level, 10
+
       @_shownMusicItem.push item
       item.runAction cc.spawn cc.fadeIn(0.3), cc.scaleTo(0.3, 1)
       item.title.runAction cc.fadeIn(0.3)
-      item.level = new cc.Sprite res.star, cc.rect(0, 0, 19*value.level, 18)
-      item.level.attr      
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 190
-        opacity: 255
-        scale: 0.5  
-      @addChild item.level, 10
+      item.artist.runAction cc.fadeIn(0.3)
+      item.level.runAction cc.fadeIn(0.3)
 
   _addBackground : ->
     @background = cc.Sprite.create res.backgroundImage
@@ -126,35 +142,49 @@ menu = cc.Layer.extend
         target.zIndex = @_selectedItemZIndex
 
         target.title.runAction cc.scaleTo(0.2, 0)
+        target.artist.runAction cc.scaleTo(0.2, 0)
         target.level.runAction cc.scaleTo(0.2, 0)
 
         for value,i in @_shownMusicItem when not value.hasSelected
           value.runAction cc.scaleTo(0.2, 0)
           value.title.runAction cc.scaleTo(0.2, 0)
+          value.artist.runAction cc.scaleTo(0.2, 0)
           value.level.runAction cc.scaleTo(0.2, 0)
 
         #@_nextButton.runAction(cc.scaleTo(0.2, 0))
         #@_previousButton.runAction(cc.scaleTo(0.2, 0))
 
         if not @_itemInfo?
-          @_itemInfo = new cc.LabelTTF "aa", "Arial", 14
+          @_itemInfo = new cc.LabelTTF "a", "Arial", 14
           @_itemInfo.attr
             x : 190
-            y : size.height / 2 + 30
+            y : size.height / 2 + 38
             opacity : 255
             scale : 0
           @addChild @_itemInfo, @_selectedItemZIndex
+
+          @_itemInfo.level = new cc.Sprite res.starWhite
+          @_itemInfo.level.attr
+            x : 108
+            y : size.height / 2 + 10
+            opacity: 255
+            scale: 0
+          #@_itemInfo.level.setAnchorPoint new cc.Point(0,1)
+
+          @addChild @_itemInfo.level, @_selectedItemZIndex
 
         text = """
           #{target.info.title}
           #{target.info.artist}
           #{target.info.license}
-          #{target.info.mode}
-          #{target.info.level}
         """
-        @_itemInfo.setString(text)
+        @_itemInfo.level.initWithFile res.starWhite, cc.rect(0, 0, 19*target.info.level, 18)
+        @_itemInfo.level.setAnchorPoint new cc.Point(0,1)
+
+        @_itemInfo.setString text
         @_itemInfo.setColor cc.color(255,255,255,255)
         @_itemInfo.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
+        @_itemInfo.level.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
 
         target.runAction(
           cc.sequence(
@@ -177,8 +207,8 @@ menu = cc.Layer.extend
             x : size.width - 40
             y : size.height - 40
 
-          cc.eventManager.addListener(closeToucheventListener.clone(), @_closeButton)
-          @addChild(@_closeButton, @_closeButtonZIndex)
+          cc.eventManager.addListener closeToucheventListener.clone(), @_closeButton
+          @addChild @_closeButton, @_closeButtonZIndex
         @_closeButton.runAction cc.fadeIn(0.3)
 
         enterToucheventListener = cc.EventListener.create
@@ -246,28 +276,16 @@ menu = cc.Layer.extend
       @_isSelected = off
       @_closeButton.runAction cc.fadeOut(0.3)
       @_blackBackground.runAction cc.fadeOut(0.3)
-      @_itemInfo.runAction(
-        cc.sequence(
-          cc.fadeOut(0.3)
-          #cc.CallFunc.create(()=>
-            #@removeChild(@_itemInfo)
-          #@)
-        )
-      )
-      @_enterButton.runAction(
-        cc.sequence(
-          cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
-          #cc.CallFunc.create(()=>
-            #@removeChild(@_enterButton)
-          #@)
-        )
-      )
-      @_itemInfo.runAction(cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)))
+      #@_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
+      @_enterButton.runAction cc.sequence(cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)))
+      @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.level.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
 
       for value,i in @_shownMusicItem
-        value.runAction(cc.scaleTo(0.2, 1))
-        value.title.runAction(cc.scaleTo(0.2, 1))
-        value.level.runAction(cc.scaleTo(0.2, 0.5))
+        value.runAction cc.scaleTo(0.2, 1)
+        value.title.runAction cc.scaleTo(0.2, 1)
+        value.artist.runAction cc.scaleTo(0.2, 1)        
+        value.level.runAction cc.scaleTo(0.2, 0.5)
       #@_nextButton.runAction(cc.scaleTo(0.2, 1))
       #@_previousButton.runAction(cc.scaleTo(0.2, 1))
       for value,i  in @_shownMusicItem when value.hasSelected
@@ -279,14 +297,9 @@ menu = cc.Layer.extend
               cc.moveTo(0.2, value.origin.x, value.origin.y)
             )
             cc.scaleTo(0.2, 1)
-            #cc.CallFunc.create(()=>
-            #  cc.log "back"
-            #  value.zIndex = @_notSelectedItemZIndex
-            #@)
           )
         )
 
-      #@removeChild(target)
       return true
     return false
 
