@@ -178,7 +178,7 @@ menu = cc.Layer.extend
           #{target.info.license}
         """
         @_itemInfo.level.initWithFile res.starWhite, cc.rect(0, 0, 19*target.info.level, 18)
-        @_itemInfo.level.setAnchorPoint cc.p(0,18)
+        @_itemInfo.level.setAnchorPoint cc.p(0,1)
 
         @_itemInfo.setString text
         @_itemInfo.setColor cc.color(255,255,255,255)
