@@ -68,7 +68,7 @@ gameLayer = cc.Layer.extend
       swallowTouches: true
       onTouchBegan: @_onTouchBeganClose.bind(@)
 
-    closeButton = new cc.Sprite closeButtonImage-black
+    closeButton = new cc.Sprite closeButtonBlackImage
     closeButton.attr
       x : cc.director.getWinSize().width - 40
       y : cc.director.getWinSize().height - 40
