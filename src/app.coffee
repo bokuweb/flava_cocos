@@ -62,6 +62,19 @@ gameLayer = cc.Layer.extend
     logo.x = 83
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
+
+    closeToucheventListener = cc.EventListener.create
+      event: cc.EventListener.TOUCH_ONE_BY_ONE
+      swallowTouches: true
+      onTouchBegan: @_onTouchBeganClose.bind(@)
+
+    closeButton = new cc.Sprite closeButtonBlackImage
+    closeButton.attr
+      x : cc.director.getWinSize().width - 40
+      y : cc.director.getWinSize().height - 40
+    cc.eventManager.addListener closeToucheventListener.clone(), closeButton
+    @addChild closeButton, 1
+   
     ###
     @_debugLabel = new cc.LabelTTF "0", "Arial", 8
     @_debugLabel.attr
@@ -70,6 +83,7 @@ gameLayer = cc.Layer.extend
     @_debugLabel.setColor cc.color(25,25,25,255)      
     @addChild @_debugLabel, 99      
     ###
+    
   update: ->
     @_measureMusicTime()
     @_appendNote()
@@ -393,6 +407,20 @@ gameLayer = cc.Layer.extend
       @_music.playMusic(res.music, false)
       @schedule(@_checkGameEnd, 1)
       @scheduleUpdate()
+      return true
+    return false
+
+  _onTouchBeganClose : (touch, event) ->
+    target = event.getCurrentTarget()
+    locationInNode = target.convertToNodeSpace(touch.getLocation())
+    s = target.getContentSize()
+    rect = cc.rect(0, 0, s.width, s.height)
+    if cc.rectContainsPoint(rect, locationInNode)
+      # タッチ時の処理
+      if @_status is "playing" or  @_status is "stop"
+        @_status = "preClose"
+        @unschedule(@_checkGameEnd)
+        @schedule(@_closeGame, 0.01)
       return true
     return false
 
