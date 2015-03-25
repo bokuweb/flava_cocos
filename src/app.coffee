@@ -143,6 +143,7 @@ gameLayer = cc.Layer.extend
   _addMusicInfo : ->
     @_renderCoverImage()
     @_renderTitle()
+    @_renderLevel()
 
   _renderCoverImage : ->
     coverImage = new cc.Sprite @_musicInfo.coverImage, cc.rect(0, 0, 60, 60)
@@ -155,19 +156,27 @@ gameLayer = cc.Layer.extend
     title = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     title.attr
       x : 210
-      y : cc.winSize.height - 109
+      y : cc.winSize.height - 99
 
     text = """
       #{@_musicInfo.title}
       #{@_musicInfo.artist}
       #{@_musicInfo.license}
-      #{@_musicInfo.mode}
     """
 
     title.setColor cc.color(51, 51, 51, 255)
     title.setString text
     @addChild title, 5
 
+  _renderLevel : ->
+    level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
+    level.attr
+      x : 109
+      y : cc.winSize.height - 124
+      scale: 0.6
+    level.setAnchorPoint cc.p(0,1)
+    @addChild level, 5
+    
   _addArtist : ->
     artist = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     artist.attr
