@@ -286,9 +286,10 @@ gameLayer = cc.Layer.extend
       if value.timing > @_getCurrentTime()
         unless value.clear
           value.y = (value.timing - @_getCurrentTime()) * note.speed + targetY
-          value.rotation += 5
+          value.setRotation (value.timing - @_getCurrentTime()) * 720
       else
         value.y = targetY
+        value.setRotation 0
       if value.y < cc.winSize.height - @_noteMaskHeight and not value.hasShown
         value.hasShown = true
         value.runAction(cc.spawn(cc.fadeIn(0.15), cc.scaleTo(0.15, 1)))
