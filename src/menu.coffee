@@ -1,5 +1,5 @@
 menu = cc.Layer.extend
-  _itemPerPage : 9
+  _itemPerPage : 6
   _itemnumPerLine : 3
   _notSelectedItemZIndex : 5
   _nextButtonZIndex : 5
@@ -68,8 +68,8 @@ menu = cc.Layer.extend
     for value,i in g_musicList[@_itemPerPage * page...@_itemPerPage * (page + 1)] when value?
       item = new cc.Sprite res.coverImage, cc.rect(0, 0, 60, 60)
       item.attr
-        x: (i % @_itemnumPerLine) * 105 + 55
-        y: ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 130
+        x: (i % @_itemnumPerLine) * 104 + 55
+        y: ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 135
         scale: 0
         opacity : 0
         info : value
@@ -80,8 +80,8 @@ menu = cc.Layer.extend
       
       item.title = new cc.LabelTTF "", "Arial", 12
       item.title.attr
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 172
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 177
         opacity: 0
         scale: 1
       item.title.setColor cc.color(25,25,25,255)
@@ -89,8 +89,8 @@ menu = cc.Layer.extend
 
       item.artist = new cc.LabelTTF "", "Arial", 11
       item.artist.attr
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 185
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 190
         opacity: 0
         scale: 1
       item.artist.setColor cc.color(25,25,25,255)
@@ -99,18 +99,27 @@ menu = cc.Layer.extend
       @addChild item.title, @_notSelectedItemZIndex
       @addChild item.artist, @_notSelectedItemZIndex
 
+      item.mode = new cc.Sprite res.normalImage
+      item.mode.attr
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 204
+        opacity: 0
+        scale: 0.5
+      @addChild item.mode, 10
+
       item.level = new cc.Sprite res.star, cc.rect(0, 0, 19*value.level, 18)
       item.level.attr
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 200
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 218
         opacity: 0
         scale: 0.5
       @addChild item.level, 10
-
+      
       @_shownMusicItem.push item
       item.runAction cc.spawn cc.fadeIn(0.3), cc.scaleTo(0.3, 1)
       item.title.runAction cc.fadeIn(0.3)
       item.artist.runAction cc.fadeIn(0.3)
+      item.mode.runAction cc.fadeIn(0.3)
       item.level.runAction cc.fadeIn(0.3)
 
   _addBackground : ->
@@ -143,12 +152,14 @@ menu = cc.Layer.extend
 
         target.title.runAction cc.scaleTo(0.2, 0)
         target.artist.runAction cc.scaleTo(0.2, 0)
+        target.mode.runAction cc.scaleTo(0.2, 0)
         target.level.runAction cc.scaleTo(0.2, 0)
 
         for value,i in @_shownMusicItem when not value.hasSelected
           value.runAction cc.scaleTo(0.2, 0)
           value.title.runAction cc.scaleTo(0.2, 0)
           value.artist.runAction cc.scaleTo(0.2, 0)
+          value.mode.runAction cc.scaleTo(0.2, 0)          
           value.level.runAction cc.scaleTo(0.2, 0)
 
         #@_nextButton.runAction(cc.scaleTo(0.2, 0))
@@ -163,15 +174,24 @@ menu = cc.Layer.extend
             scale : 0
           @addChild @_itemInfo, @_selectedItemZIndex
 
-          @_itemInfo.level = new cc.Sprite res.starWhite
-          @_itemInfo.level.attr
+          @_itemInfo.mode = new cc.Sprite res.normalImage
+          @_itemInfo.mode.attr
             x : 109
             y : size.height / 2 + 8
             opacity: 255
             scale: 0
 
-          @addChild @_itemInfo.level, @_selectedItemZIndex
+          @addChild @_itemInfo.mode, @_selectedItemZIndex
 
+          @_itemInfo.level = new cc.Sprite res.starWhite
+          @_itemInfo.level.attr
+            x : 109
+            y : size.height / 2 -12
+            opacity: 255
+            scale: 0
+
+          @addChild @_itemInfo.level, @_selectedItemZIndex
+          
         text = """
           #{target.info.title}
           #{target.info.artist}
@@ -179,11 +199,13 @@ menu = cc.Layer.extend
         """
         @_itemInfo.level.initWithFile res.starWhite, cc.rect(0, 0, 19*target.info.level, 18)
         @_itemInfo.level.setAnchorPoint cc.p(0,1)
+        @_itemInfo.mode.setAnchorPoint cc.p(0,1)
 
         @_itemInfo.setString text
         @_itemInfo.setColor cc.color(255,255,255,255)
         @_itemInfo.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
         @_itemInfo.level.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
+        @_itemInfo.mode.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
 
         target.runAction(
           cc.sequence(
@@ -278,12 +300,14 @@ menu = cc.Layer.extend
       #@_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
       @_enterButton.runAction cc.sequence(cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)))
       @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.mode.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.level.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
 
       for value,i in @_shownMusicItem
         value.runAction cc.scaleTo(0.2, 1)
         value.title.runAction cc.scaleTo(0.2, 1)
         value.artist.runAction cc.scaleTo(0.2, 1)        
+        value.mode.runAction cc.scaleTo(0.2, 0.5)
         value.level.runAction cc.scaleTo(0.2, 0.5)
       #@_nextButton.runAction(cc.scaleTo(0.2, 1))
       #@_previousButton.runAction(cc.scaleTo(0.2, 1))
@@ -327,7 +351,8 @@ menu = cc.Layer.extend
         )
         value.title.runAction(cc.sequence(cc.fadeOut(0.3)))
       @_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))
+      @_itemInfo.mode.runAction cc.sequence(cc.fadeOut(0.3))
+      @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))      
       @_enterButton.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       return true
     return false

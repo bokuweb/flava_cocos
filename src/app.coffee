@@ -10,7 +10,7 @@ gameLayer = cc.Layer.extend
   _music : null
   _musicInfo : null
   _volume : 1
-  _targetY : 80
+  _targetY : 90
   _note :
     active : []
     timing : [2.323000,2.878000,2.883000,3.436000,4.5670,5.127,6.759,8.982,11.269,13.500,15.731,18.002,20.242,22.448,24.753,26.960,29.180,31.455,33.730,35.899,38.170,40.377,42.665,44.886,47.127,49.354,51.654,53.825,56.081,58.306,60.544,62.781,65.039,67.278,69.498,71.773,74.010,76.216,80.793,83.015,85.224,89.752,92.022,94.294]
@@ -172,7 +172,7 @@ gameLayer = cc.Layer.extend
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 123
+      y : cc.winSize.height - 125
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
@@ -191,7 +191,7 @@ gameLayer = cc.Layer.extend
     license = new cc.LabelTTF "0", "Arial", 10, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     license.attr
       x : 210
-      y : cc.winSize.height - 80
+      y : cc.winSize.height - 82
 
     license.setColor cc.color(25,25,25,255)
     license.setString @_musicInfo.license
@@ -201,7 +201,7 @@ gameLayer = cc.Layer.extend
     @startButton = new cc.LabelTTF "0", "Arial", 14, cc.size(200,30), cc.TEXT_ALIGNMENT_LEFT
     @startButton.attr
       x : 200
-      y : cc.winSize.height - 280
+      y : cc.winSize.height - 230
 
     @startButton.setColor cc.color(51,51,51,255)
     @startButton.setString "Touch here to start!"
@@ -227,15 +227,6 @@ gameLayer = cc.Layer.extend
       x : 140
       y : cc.winSize.height - 100
     @addChild mode, 5
-
-  _addLevel : ->
-    level = new cc.LabelTTF "0", "Arial", 12, cc.size(500,30), cc.TEXT_ALIGNMENT_LEFT
-    level.attr
-      x : 140
-      y : 382
-    level.setColor cc.color(25,25,25,255)
-    level.setString("\f005")
-    @addChild level, 5
 
   _appendNote : ->
     eventListener = cc.EventListener.create
@@ -370,12 +361,12 @@ gameLayer = cc.Layer.extend
     if @_volume <= 0 and @_status = "preClose"
       @_status = "close"
 
-      @overBackground = cc.Sprite.create(res.backgroundImage)
-      @overBackground.x = cc.director.getWinSize().width / 2
-      @overBackground.y = cc.director.getWinSize().height / 2
-      @overBackground.opacity = 0
-      @addChild @overBackground, 100
-      @overBackground.runAction(
+      overBackground = cc.Sprite.create res.backgroundImage
+      overBackground.x = cc.director.getWinSize().width / 2
+      overBackground.y = cc.director.getWinSize().height / 2
+      overBackground.opacity = 0
+      @addChild overBackground, 100
+      overBackground.runAction(
         cc.sequence(
           cc.fadeIn(0.3)
           cc.CallFunc.create ()=>

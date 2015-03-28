@@ -48,26 +48,28 @@
 
 
 cc.game.onStart = ->
-  cc.view.adjustViewPort(true)
-  cc.view.setDesignResolutionSize(320, 568, cc.ResolutionPolicy.SHOW_ALL)
-  cc.view.resizeWithBrowserSize(true)
-  cc.director.setProjection(cc.Director.PROJECTION_2D)
-  cc.director.setContentScaleFactor(2)
-
+  cc.view.adjustViewPort true
+  cc.view.resizeWithBrowserSize true
+  cc.director.setProjection cc.Director.PROJECTION_2D
+  cc.director.setContentScaleFactor 2
+  cc.view.setDesignResolutionSize 320, 480, cc.ResolutionPolicy.SHOW_ALL            
   #cc._loadingImage = cc.backgroundImage
   #cc._loaderImage = cc.logo
 
   if cc.sys.isNative
     searchPaths = jsb.fileUtils.getSearchPaths()
-    searchPaths.push('script')
+    searchPaths.push 'script'
     if cc.sys.os is cc.sys.OS_IOS or cc.sys.os is cc.sys.OS_OSX
-      searchPaths.push("res")
-      searchPaths.push("src")
-    jsb.fileUtils.setSearchPaths(searchPaths)
+      searchPaths.push "res"
+      searchPaths.push "src"
+    #else if cc.sys.os is cc.sys.OS_ANDROID
+      #if cc.winSize.height > 960
+      #  cc.view.setDesignResolutionSize 320, 568, cc.ResolutionPolicy.SHOW_ALL
+    jsb.fileUtils.setSearchPaths searchPaths
 
-  cc.LoaderScene.preload(g_resources, ()->
+  cc.LoaderScene.preload g_resources, ->
     menu = new menuScene()
-    cc.director.runScene(menu)
-  , @)
+    cc.director.runScene menu
+  , @
 
 cc.game.run()
