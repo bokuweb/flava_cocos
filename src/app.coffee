@@ -172,7 +172,7 @@ gameLayer = cc.Layer.extend
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 123
+      y : cc.winSize.height - 125
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
@@ -361,12 +361,12 @@ gameLayer = cc.Layer.extend
     if @_volume <= 0 and @_status = "preClose"
       @_status = "close"
 
-      @overBackground = cc.Sprite.create(res.backgroundImage)
-      @overBackground.x = cc.director.getWinSize().width / 2
-      @overBackground.y = cc.director.getWinSize().height / 2
-      @overBackground.opacity = 0
-      @addChild @overBackground, 100
-      @overBackground.runAction(
+      overBackground = cc.Sprite.create res.backgroundImage
+      overBackground.x = cc.director.getWinSize().width / 2
+      overBackground.y = cc.director.getWinSize().height / 2
+      overBackground.opacity = 0
+      @addChild overBackground, 100
+      overBackground.runAction(
         cc.sequence(
           cc.fadeIn(0.3)
           cc.CallFunc.create ()=>
