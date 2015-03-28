@@ -1,5 +1,5 @@
 menu = cc.Layer.extend
-  _itemPerPage : 9
+  _itemPerPage : 6
   _itemnumPerLine : 3
   _notSelectedItemZIndex : 5
   _nextButtonZIndex : 5
@@ -68,8 +68,8 @@ menu = cc.Layer.extend
     for value,i in g_musicList[@_itemPerPage * page...@_itemPerPage * (page + 1)] when value?
       item = new cc.Sprite res.coverImage, cc.rect(0, 0, 60, 60)
       item.attr
-        x: (i % @_itemnumPerLine) * 105 + 55
-        y: ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 130
+        x: (i % @_itemnumPerLine) * 104 + 55
+        y: ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 135
         scale: 0
         opacity : 0
         info : value
@@ -80,8 +80,8 @@ menu = cc.Layer.extend
       
       item.title = new cc.LabelTTF "", "Arial", 12
       item.title.attr
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 172
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 177
         opacity: 0
         scale: 1
       item.title.setColor cc.color(25,25,25,255)
@@ -89,8 +89,8 @@ menu = cc.Layer.extend
 
       item.artist = new cc.LabelTTF "", "Arial", 11
       item.artist.attr
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 185
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 190
         opacity: 0
         scale: 1
       item.artist.setColor cc.color(25,25,25,255)
@@ -101,8 +101,8 @@ menu = cc.Layer.extend
 
       item.level = new cc.Sprite res.star, cc.rect(0, 0, 19*value.level, 18)
       item.level.attr
-        x : (i % @_itemnumPerLine) * 105 + 55
-        y : ~~(i / @_itemnumPerLine) * -135 + cc.director.getWinSize().height - 200
+        x : (i % @_itemnumPerLine) * 104 + 55
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 204
         opacity: 0
         scale: 0.5
       @addChild item.level, 10
