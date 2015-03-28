@@ -165,8 +165,8 @@ menu = cc.Layer.extend
 
           @_itemInfo.level = new cc.Sprite res.starWhite
           @_itemInfo.level.attr
-            x : 108
-            y : size.height / 2 + 10
+            x : 109
+            y : size.height / 2 + 8
             opacity: 255
             scale: 0
 

@@ -171,12 +171,12 @@ gameLayer = cc.Layer.extend
   _renderLevel : ->
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
-      x : 109
-      y : cc.winSize.height - 124
+      x : 110
+      y : cc.winSize.height - 123
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
-    
+
   _addArtist : ->
     artist = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     artist.attr
