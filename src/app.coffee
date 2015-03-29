@@ -344,8 +344,7 @@ gameLayer = cc.Layer.extend
         @_comboLabel.runAction(cc.fadeOut(0.5))
 
   _measureMusicTime : ->
-    try
-      isPlaying = @_music.isMusicPlaying()
+    isPlaying = @_music.isMusicPlaying()
     if isPlaying
       if @_startTime is 0
         @_startTime  = new Date()
@@ -357,12 +356,12 @@ gameLayer = cc.Layer.extend
   _checkGameEnd : ->
     if @_getCurrentTime() >= @_endTime and @_status is "playing"
       @_status = "preClose"
-      @unschedule(@_checkGameEnd)
-      @schedule(@_closeGame, 0.01)
+      @unschedule @_checkGameEnd
+      @schedule @_closeGame, 0.01
 
   _closeGame : ->
     @_volume -= 0.01
-    @_music.setMusicVolume(@_volume)
+    @_music.setMusicVolume @_volume
     if @_volume <= 0 and @_status = "preClose"
       @_status = "close"
 
@@ -391,7 +390,7 @@ gameLayer = cc.Layer.extend
     target = event.getCurrentTarget()
     locationInNode = target.convertToNodeSpace touch.getLocation()
     s = target.getContentSize()
-    rect = cc.rect(0, 0, s.width, s.height)
+    rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
       unless target.clear
         target.clear = true
@@ -402,25 +401,25 @@ gameLayer = cc.Layer.extend
   _onTouchBeganStart : (touch, event) ->
     time = @_getCurrentTime()
     target = event.getCurrentTarget()
-    locationInNode = target.convertToNodeSpace(touch.getLocation())
+    locationInNode = target.convertToNodeSpace touch.getLocation()
     s = target.getContentSize()
-    rect = cc.rect(0, 0, s.width, s.height)
-    if (cc.rectContainsPoint(rect, locationInNode))
+    rect = cc.rect 0, 0, s.width, s.height
+    if cc.rectContainsPoint rect, locationInNode
       @startButton.stopAllActions()
-      @startButton.runAction(cc.fadeTo(1, 0))
+      @startButton.runAction cc.fadeTo(1, 0)
       @_status = "playing"
-      @_music.playMusic(res.music, false)
-      @schedule(@_checkGameEnd, 1)
+      @_music.playMusic res.music, false
+      @schedule @_checkGameEnd, 1
       @scheduleUpdate()
       return true
     return false
 
   _onTouchBeganClose : (touch, event) ->
     target = event.getCurrentTarget()
-    locationInNode = target.convertToNodeSpace(touch.getLocation())
+    locationInNode = target.convertToNodeSpace touch.getLocation()
     s = target.getContentSize()
-    rect = cc.rect(0, 0, s.width, s.height)
-    if cc.rectContainsPoint(rect, locationInNode)
+    rect = cc.rect 0, 0, s.width, s.height
+    if cc.rectContainsPoint rect, locationInNode
       # タッチ時の処理
       if @_status is "playing" or  @_status is "stop"
         @_status = "preClose"

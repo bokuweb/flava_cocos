@@ -5,11 +5,10 @@ GameOver = cc.Layer.extend
     if not window.sys
       window.sys =
         localStorage : localStorage
-
     score = stats.score
 
     highScore = sys.localStorage.getItem id
-    if highScore < score
+    if highScore <= score
       sys.localStorage.setItem id, score
       highScore = score
 
@@ -24,14 +23,13 @@ GameOver = cc.Layer.extend
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
 
-    @_debugLabel = new cc.LabelTTF "0", "Arial", 8
+    @_debugLabel = new cc.LabelTTF "", "Arial", 8
     @_debugLabel.attr
       x : 120
       y: cc.winSize.height - 300
     @_debugLabel.setColor cc.color(25,25,25,25)
     @addChild @_debugLabel, 99
-
-    @_debugLabel.setString "gameover" + id + highScore
+    #@_debugLabel.setString "gameover" + id + highScore
 
   _calcRank : (score)->
     if score > 97500      then  rank ="SSS"
@@ -105,7 +103,7 @@ GameOver = cc.Layer.extend
     bgToucheventListener = cc.EventListener.create
       event: cc.EventListener.TOUCH_ONE_BY_ONE
       swallowTouches: true
-      onTouchBegan: @_onTouchBeganBg.bind(@)
+      onTouchBegan: @_onTouchBeganBg.bind @
 
     cc.eventManager.addListener bgToucheventListener.clone(), bg
 
@@ -114,10 +112,10 @@ GameOver = cc.Layer.extend
     locationInNode = target.convertToNodeSpace touch.getLocation()
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
-    if cc.rectContainsPoint(rect, locationInNode)
+    if cc.rectContainsPoint rect, locationInNode
       # on touch
       menu = new menuScene()
-      cc.director.runScene(menu)
+      cc.director.runScene menu
       return true
     return false
 
