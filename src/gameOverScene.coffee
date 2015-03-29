@@ -6,7 +6,7 @@ GameOver = cc.Layer.extend
     score = stats.score
 
     highScore = sys.localStorage.getItem id
-    if highScore <= score
+    if highScore < score
       sys.localStorage.setItem id, score
       highScore = score
 
@@ -27,7 +27,6 @@ GameOver = cc.Layer.extend
       y: cc.winSize.height - 300
     @_debugLabel.setColor cc.color(25,25,25,25)
     @addChild @_debugLabel, 99
-    #@_debugLabel.setString "gameover" + id + highScore
 
   _calcRank : (score)->
     if score > 97500      then  rank ="SSS"

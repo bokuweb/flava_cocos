@@ -76,14 +76,14 @@ gameLayer = cc.Layer.extend
     cc.eventManager.addListener closeToucheventListener.clone(), closeButton
     @addChild closeButton, 1
    
-    ###
-    @_debugLabel = new cc.LabelTTF "0", "Arial", 8
+    @_debugLabel = new cc.LabelTTF "", "Arial", 8
     @_debugLabel.attr
       x : 120
       y: cc.winSize.height - 200
     @_debugLabel.setColor cc.color(25,25,25,255)      
     @addChild @_debugLabel, 99      
-    ###
+
+    #@_debugLabel.setString info.id + " / " + sys.localStorage.getItem info.id
     
   update: ->
     @_measureMusicTime()
@@ -111,7 +111,7 @@ gameLayer = cc.Layer.extend
     @addChild bg, 0
 
   _addJudgeLabel : ->
-    @_judgeLabel = new cc.LabelTTF "great", "Arial", 18
+    @_judgeLabel = new cc.LabelTTF "Great", "Arial", 18
     @_judgeLabel.attr
       x : 225
       y : 225
@@ -124,7 +124,7 @@ gameLayer = cc.Layer.extend
     @_comboLabel = new cc.LabelTTF "0", "Arial", 18
     @_comboLabel.attr
       x : 225
-      y : 175
+      y : 205
       opacity : 0
       isShown : false
 
@@ -132,9 +132,17 @@ gameLayer = cc.Layer.extend
     @addChild @_comboLabel, 5
 
   _renderScore : ->
-    @_scoreLabel = new cc.LabelTTF "0", "Arial", 18
+    icon = new cc.Sprite res.scoreIconImage
+    icon.attr
+      x : 194
+      y : cc.winSize.height - 146
+      scale: 0.23
+    icon.setAnchorPoint cc.p(0,1)
+    @addChild icon, 5
+
+    @_scoreLabel = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_scoreLabel.attr
-      x : 225
+      x : 310
       y: cc.winSize.height - 150
 
     @_scoreLabel.setColor cc.color(25,25,25,25)
@@ -184,7 +192,7 @@ gameLayer = cc.Layer.extend
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 146
+      y : cc.winSize.height - 144
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
@@ -192,19 +200,19 @@ gameLayer = cc.Layer.extend
   _renderHighScore : ->
     icon = new cc.Sprite res.highBlackImage
     icon.attr
-      x : 180
+      x : 195
       y : cc.winSize.height - 127
       scale: 0.16
     icon.setAnchorPoint cc.p(0,1)
     @addChild icon, 5
 
-    highScore  = new cc.LabelTTF "0", "Arial", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+    highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
-      x : 198
-      y : cc.winSize.height - 132
+      x : 260
+      y : cc.winSize.height - 130
 
-    text = if sys.localStorage.getItem @_musicInfo.id? then sys.localStorage.getItem @_musicInfo.id else 0
-
+    text = sys.localStorage.getItem @_musicInfo.id
+    if text  is "" then text = 0
     highScore.setColor cc.color(51, 51, 51, 255)
     highScore.setString text
     @addChild highScore, 5
@@ -322,7 +330,7 @@ gameLayer = cc.Layer.extend
           judgement = "Bad"
           @_judgeCount.bad++
           @_combo = 0
-        @_updateJudgeLabel(judgement)
+        @_updateJudgeLabel judgement
 
     @_updateComboLabel()
     return
@@ -331,14 +339,14 @@ gameLayer = cc.Layer.extend
     @_judgeLabel.stopAllActions()
     @_judgeLabel.opacity = 255
     @_judgeLabel.setString text
-    @_judgeLabel.runAction cc.fadeOut(0.5)
+    @_judgeLabel.runAction cc.fadeOut(1)
 
   _updateComboLabel : ()->
     if @_combo >= 5
       @_comboLabel.isShown = true
       @_comboLabel.stopAllActions()
       @_comboLabel.opacity = 255
-      @_comboLabel.setString @_combo
+      @_comboLabel.setString "x"+@_combo+"chain!"
     else
       if @_comboLabel.isShown
         @_comboLabel.isShown = false

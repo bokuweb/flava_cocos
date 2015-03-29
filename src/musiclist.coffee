@@ -6,7 +6,7 @@
     license: "Creative Commons By 3.0"
     music : "res/Ouroboros.mp3"
     mode : "normal"
-    level : 5
+    level : 7
   },{
     id : 1
     coverImage : "res/cover.jpg" 

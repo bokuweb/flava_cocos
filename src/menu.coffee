@@ -111,7 +111,7 @@ menu = cc.Layer.extend
       item.level = new cc.Sprite res.star, cc.rect(0, 0, 19*value.level, 18)
       item.level.attr
         x : (i % @_itemnumPerLine) * 104 + 55
-        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 218
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 219
         opacity: 0
         scale: 0.5
       @addChild item.level, 10
@@ -189,15 +189,15 @@ menu = cc.Layer.extend
           @_itemInfo.icon = new cc.Sprite res.highWhiteImage
           @_itemInfo.icon.attr
             x : 180
-            y : size.height / 2 +5            
+            y : size.height / 2 + 4        
             scale: 0
             @_itemInfo.icon.setAnchorPoint cc.p(0,1)
             @addChild @_itemInfo.icon, @_selectedItemZIndex
 
           @_itemInfo.highScore  = new cc.LabelTTF "0", "Arial", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
           @_itemInfo.highScore.attr
-            x : 198
-            y : size.height / 2 
+            x : 212
+            y : size.height / 2
             scale: 0
 
           @_itemInfo.highScore.setColor cc.color(255, 255, 255, 255)
@@ -215,7 +215,8 @@ menu = cc.Layer.extend
         if target.info.mode is "normal" then @_itemInfo.mode.initWithFile res.normalImage
         else if target.info.mode is "another" then @_itemInfo.mode.initWithFile res.anotherImage
 
-        highScore = if sys.localStorage.getItem target.info.id? then sys.localStorage.getItem  target.info.id else 0
+        highScore = sys.localStorage.getItem target.info.id
+        if highScore is "" then highScore = 0
         @_itemInfo.highScore.setString highScore
 
         
