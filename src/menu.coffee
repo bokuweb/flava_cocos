@@ -205,7 +205,7 @@ menu = cc.Layer.extend
         @_itemInfo.setColor cc.color(255,255,255,255)
         @_itemInfo.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
         @_itemInfo.level.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
-        @_itemInfo.mode.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
+        @_itemInfo.mode.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.7))
 
         target.runAction(
           cc.sequence(
@@ -307,7 +307,7 @@ menu = cc.Layer.extend
         value.runAction cc.scaleTo(0.2, 1)
         value.title.runAction cc.scaleTo(0.2, 1)
         value.artist.runAction cc.scaleTo(0.2, 1)        
-        value.mode.runAction cc.scaleTo(0.2, 0.5)
+        value.mode.runAction cc.scaleTo(0.2, 0.7)
         value.level.runAction cc.scaleTo(0.2, 0.5)
       #@_nextButton.runAction(cc.scaleTo(0.2, 1))
       #@_previousButton.runAction(cc.scaleTo(0.2, 1))
