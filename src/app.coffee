@@ -172,7 +172,7 @@ gameLayer = cc.Layer.extend
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 125
+      y : cc.winSize.height - 126
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
