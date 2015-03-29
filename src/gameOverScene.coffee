@@ -1,19 +1,17 @@
 GameOver = cc.Layer.extend
   ctor: -> @_super()
-  # TODO: get game id
-  init: (stats)->
+
+  init: (id, stats)->
     if not window.sys
       window.sys =
         localStorage : localStorage
 
     score = stats.score
 
-    ### TODO
     highScore = sys.localStorage.getItem id
     if highScore < score
       sys.localStorage.setItem id, score
       highScore = score
-    ###
 
     rank = @_calcRank score
     result = @_calcResult score, rank
@@ -25,8 +23,7 @@ GameOver = cc.Layer.extend
     logo.x = 88
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
-    
-    ###
+
     @_debugLabel = new cc.LabelTTF "0", "Arial", 8
     @_debugLabel.attr
       x : 120
@@ -34,8 +31,8 @@ GameOver = cc.Layer.extend
     @_debugLabel.setColor cc.color(25,25,25,25)
     @addChild @_debugLabel, 99
 
-    @_debugLabel.setString "gameover"
-    ###
+    @_debugLabel.setString "gameover" + id + highScore
+
   _calcRank : (score)->
     if score > 97500      then  rank ="SSS"
     else if score > 95000 then  rank ="SS"
@@ -127,9 +124,8 @@ GameOver = cc.Layer.extend
 @gameOverScene = cc.Scene.extend
   onEnter: -> @_super()
 
-  init: (stats)->
+  init: (id, stats)->
     layer = new GameOver()
-    # TODO:add id
-    layer.init stats
+    layer.init id, stats
     @addChild layer, 10
     return

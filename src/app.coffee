@@ -373,7 +373,7 @@ gameLayer = cc.Layer.extend
           cc.CallFunc.create ()=>
             @_music.stopMusic()
             gameOver = new gameOverScene()
-            gameOver.init
+            gameOver.init @_musicInfo.id, 
               score : @_score.display
               great : @_judgeCount.great
               good  : @_judgeCount.good
@@ -420,8 +420,8 @@ gameLayer = cc.Layer.extend
       # タッチ時の処理
       if @_status is "playing" or  @_status is "stop"
         @_status = "preClose"
-        @unschedule(@_checkGameEnd)
-        @schedule(@_closeGame, 0.01)
+        @unschedule @_checkGameEnd
+        @schedule @_closeGame, 0.01
       return true
     return false
 
@@ -429,9 +429,9 @@ gameLayer = cc.Layer.extend
   onEnter: ()->
     @_super()
     return
-  init: (param)->
+  init: (info)->
     layer = new gameLayer()
-    layer.init(param)
+    layer.init info
     @addChild layer
     return
 

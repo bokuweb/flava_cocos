@@ -16,12 +16,12 @@ menu = cc.Layer.extend
   _enterButton : null
   _previousButton : null
   _blackBackground : null
-  _isSelected : false
+  _selected : null
 
   ctor: -> @_super()
 
   _init: ->
-    @_isSelected = off
+    @_selected = null
     @_addBackground()
 
     @_maxPageNum = ~~((g_musicList.length - 1) / @_itemPerPage)
@@ -114,8 +114,9 @@ menu = cc.Layer.extend
         opacity: 0
         scale: 0.5
       @addChild item.level, 10
-      
+
       @_shownMusicItem.push item
+
       item.runAction cc.spawn cc.fadeIn(0.3), cc.scaleTo(0.3, 1)
       item.title.runAction cc.fadeIn(0.3)
       item.artist.runAction cc.fadeIn(0.3)
@@ -136,8 +137,9 @@ menu = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
-      unless @_isSelected
-        @_isSelected = on
+      if not @_selected
+        @_selected = target.info.id
+        cc.log target.info.id
         if not @_blackBackground?
           @_blackBackground = cc.LayerColor.create new cc.Color(0,0,0,0)
           @addChild(@_blackBackground, @_overBackgroundZIndex)
@@ -177,7 +179,7 @@ menu = cc.Layer.extend
           @_itemInfo.mode = new cc.Sprite res.normalImage
           @_itemInfo.mode.attr
             x : 109
-            y : size.height / 2 + 11
+            y : size.height / 2 + 5
             opacity: 255
             scale: 0
 
@@ -251,6 +253,12 @@ menu = cc.Layer.extend
       return true
     return false
 
+  _gameStart : ->
+    game = new gameScene()
+    game.init @_shownMusicItem[@_selected].info
+    @_selected = null
+    cc.director.runScene game
+
   _onTouchBeganPager : (touch, event) ->
     target = event.getCurrentTarget()
     locationInNode = target.convertToNodeSpace touch.getLocation()
@@ -294,7 +302,7 @@ menu = cc.Layer.extend
     rect = cc.rect(0, 0, s.width, s.height)
     if cc.rectContainsPoint(rect, locationInNode)
       # タッチ時の処理
-      @_isSelected = off
+      @_selected = null
       @_closeButton.runAction cc.fadeOut(0.3)
       @_blackBackground.runAction cc.fadeOut(0.3)
       #@_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
@@ -334,22 +342,14 @@ menu = cc.Layer.extend
     if cc.rectContainsPoint(rect, locationInNode)
       # タッチ時の処理
       for value in @_shownMusicItem
-        @_isSelected = off
         value.runAction(
           cc.sequence(
             cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
-            cc.CallFunc.create(()=>
-              #@removeChild(value)
-              cc.log "menu"
-              cc.LoaderScene.preload(g_resources, ()=>
-                game = new gameScene()
-                game.init(value.info)
-                cc.director.runScene(game)
-              @)
-            @)
           )
         )
         value.title.runAction(cc.sequence(cc.fadeOut(0.3)))
+      @schedule @_gameStart, 0.5
+
       @_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
       @_itemInfo.mode.runAction cc.sequence(cc.fadeOut(0.3))
       @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))      
