@@ -102,7 +102,7 @@ menu = cc.Layer.extend
       item.mode = new cc.Sprite res.normalImage
       item.mode.attr
         x : (i % @_itemnumPerLine) * 104 + 55
-        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 204
+        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 206
         opacity: 0
         scale: 0.6
       @addChild item.mode, 10
@@ -177,7 +177,7 @@ menu = cc.Layer.extend
           @_itemInfo.mode = new cc.Sprite res.normalImage
           @_itemInfo.mode.attr
             x : 109
-            y : size.height / 2 + 8
+            y : size.height / 2 + 11
             opacity: 255
             scale: 0
 
