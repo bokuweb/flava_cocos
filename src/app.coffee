@@ -143,6 +143,7 @@ gameLayer = cc.Layer.extend
   _addMusicInfo : ->
     @_renderCoverImage()
     @_renderTitle()
+    @_renderMode()
     @_renderLevel()
 
   _renderCoverImage : ->
@@ -168,15 +169,25 @@ gameLayer = cc.Layer.extend
     title.setString text
     @addChild title, 5
 
+  _renderMode : ->
+    if @_musicInfo.mode is "normal" then mode = new cc.Sprite res.normalImage
+    else if @_musicInfo.mode is "another" then mode = new cc.Sprite res.anotherImage
+    mode.attr
+      x : 110
+      y : cc.winSize.height - 126
+      scale: 0.6
+    mode.setAnchorPoint cc.p(0,1)
+    @addChild mode, 5
+
   _renderLevel : ->
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 126
+      y : cc.winSize.height - 146
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
-
+    
   _addArtist : ->
     artist = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     artist.attr
@@ -220,13 +231,6 @@ gameLayer = cc.Layer.extend
       swallowTouches: true
       onTouchBegan: @_onTouchBeganStart.bind(@)
     cc.eventManager.addListener eventListener.clone(), @startButton
-
-  _addMode : ->
-    mode = new cc.Sprite res.normal
-    mode.attr
-      x : 140
-      y : cc.winSize.height - 100
-    @addChild mode, 5
 
   _appendNote : ->
     eventListener = cc.EventListener.create

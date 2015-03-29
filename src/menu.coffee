@@ -87,7 +87,7 @@ menu = cc.Layer.extend
       item.title.setColor cc.color(25,25,25,255)
       item.title.setString value.title
 
-      item.artist = new cc.LabelTTF "", "Arial", 11
+      item.artist = new cc.LabelTTF "", "Arial", 10
       item.artist.attr
         x : (i % @_itemnumPerLine) * 104 + 55
         y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 190
@@ -99,7 +99,8 @@ menu = cc.Layer.extend
       @addChild item.title, @_notSelectedItemZIndex
       @addChild item.artist, @_notSelectedItemZIndex
 
-      item.mode = new cc.Sprite res.normalImage
+      if value.mode is "normal" then item.mode = new cc.Sprite res.normalImage
+      else if value.mode is "another" then item.mode = new cc.Sprite res.anotherImage
       item.mode.attr
         x : (i % @_itemnumPerLine) * 104 + 55
         y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 206
@@ -193,7 +194,9 @@ menu = cc.Layer.extend
             scale: 0
 
           @addChild @_itemInfo.level, @_selectedItemZIndex
-          
+
+        if target.info.mode is "normal" then @_itemInfo.mode.initWithFile res.normalImage
+        else if target.info.mode is "another" then @_itemInfo.mode.initWithFile res.anotherImage          
         text = """
           #{target.info.title}
           #{target.info.artist}

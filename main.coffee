@@ -67,9 +67,6 @@ cc.game.onStart = ->
       #  cc.view.setDesignResolutionSize 320, 568, cc.ResolutionPolicy.SHOW_ALL
     jsb.fileUtils.setSearchPaths searchPaths
 
-  if cc.sys.os is cc.sys.OS_ANDROID
-    M1_PLUS = "fonts/mplus-1p-light.ttf"
-
   cc.LoaderScene.preload g_resources, ->
     menu = new menuScene()
     cc.director.runScene menu
