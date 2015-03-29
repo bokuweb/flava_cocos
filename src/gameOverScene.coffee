@@ -2,9 +2,7 @@ GameOver = cc.Layer.extend
   ctor: -> @_super()
 
   init: (id, stats)->
-    if not window.sys
-      window.sys =
-        localStorage : localStorage
+
     score = stats.score
 
     highScore = sys.localStorage.getItem id

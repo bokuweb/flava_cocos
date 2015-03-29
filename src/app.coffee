@@ -2,7 +2,7 @@ gameLayer = cc.Layer.extend
   _noteOffsetX : 50
   _noteMarginX : 54
   _noteRemovesTiming : 0.2
-  _noteMaskHeight : 160
+  _noteMaskHeight : 190
   _playTime : 0
   _timeLabel : null
   _debugLabel : null
@@ -38,6 +38,7 @@ gameLayer = cc.Layer.extend
   ctor: -> @_super()
 
   init: (info)->
+
     @_status = "stop"
     @_note.active.length = 0
     @_note.index = 0
@@ -50,7 +51,7 @@ gameLayer = cc.Layer.extend
     @_addBackground()
     @_renderTarget()
     @_music = cc.audioEngine
-    @_music.setMusicVolume(255)
+    @_music.setMusicVolume 1
 
     @_addJudgeLabel()
     @_addComboLabel()
@@ -66,7 +67,7 @@ gameLayer = cc.Layer.extend
     closeToucheventListener = cc.EventListener.create
       event: cc.EventListener.TOUCH_ONE_BY_ONE
       swallowTouches: true
-      onTouchBegan: @_onTouchBeganClose.bind(@)
+      onTouchBegan: @_onTouchBeganClose.bind @
 
     closeButton = new cc.Sprite res.closeButtonBlackImage
     closeButton.attr
@@ -99,7 +100,6 @@ gameLayer = cc.Layer.extend
         x: @_noteMarginX * i + @_noteOffsetX
         y: @_targetY
         scale : 0.9
-
       @addChild target, 1
     return
 
@@ -145,6 +145,7 @@ gameLayer = cc.Layer.extend
     @_renderTitle()
     @_renderMode()
     @_renderLevel()
+    @_renderHighScore()
 
   _renderCoverImage : ->
     coverImage = new cc.Sprite @_musicInfo.coverImage, cc.rect(0, 0, 60, 60)
@@ -187,26 +188,26 @@ gameLayer = cc.Layer.extend
       scale: 0.6
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
-    
-  _addArtist : ->
-    artist = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
-    artist.attr
-      x : 210
-      y : cc.winSize.height - 60
 
-    artist.setColor cc.color(25,25,25,255)
-    artist.setString @_musicInfo.artist
-    @addChild artist, 5
+  _renderHighScore : ->
+    icon = new cc.Sprite res.highBlackImage
+    icon.attr
+      x : 180
+      y : cc.winSize.height - 127
+      scale: 0.16
+    icon.setAnchorPoint cc.p(0,1)
+    @addChild icon, 5
 
-  _renderLicense : ->
-    license = new cc.LabelTTF "0", "Arial", 10, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
-    license.attr
-      x : 210
-      y : cc.winSize.height - 82
+    highScore  = new cc.LabelTTF "0", "Arial", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+    highScore.attr
+      x : 198
+      y : cc.winSize.height - 132
 
-    license.setColor cc.color(25,25,25,255)
-    license.setString @_musicInfo.license
-    @addChild license, 5
+    text = if sys.localStorage.getItem @_musicInfo.id? then sys.localStorage.getItem @_musicInfo.id else 0
+
+    highScore.setColor cc.color(51, 51, 51, 255)
+    highScore.setString text
+    @addChild highScore, 5
 
   _addStartButton : ->
     @startButton = new cc.LabelTTF "0", "Arial", 14, cc.size(200,30), cc.TEXT_ALIGNMENT_LEFT
@@ -296,7 +297,7 @@ gameLayer = cc.Layer.extend
         value.setRotation 0
       if value.y < cc.winSize.height - @_noteMaskHeight and not value.hasShown
         value.hasShown = true
-        value.runAction(cc.spawn(cc.fadeIn(0.15), cc.scaleTo(0.15, 1)))
+        value.runAction cc.spawn(cc.fadeIn(0.2), cc.scaleTo(0.2, 1))
     return
 
   _judgeNote : ->
@@ -307,18 +308,18 @@ gameLayer = cc.Layer.extend
         value.runAction(cc.spawn(cc.fadeOut(0.3), cc.scaleBy(0.3, 2, 2)))
         value.hasAnimationStarted = true
         if -threshold.great < (value.timing - value.clearTime) < threshold.great
-          judgement = "great"
+          judgement = "Great"
           @_score.real += 100000 / @_note.timing.length
           @_combo++
           @_judgeCount.great++
           cc.log @_score.real
         else if -threshold.good < (value.timing - value.clearTime) < threshold.good
-          judgement = "good"
+          judgement = "Good"
           @_score.real += 70000 / @_note.timing.length
           @_combo++
           @_judgeCount.good++
         else
-          judgement = "bad"
+          judgement = "Bad"
           @_judgeCount.bad++
           @_combo = 0
         @_updateJudgeLabel(judgement)
@@ -329,26 +330,26 @@ gameLayer = cc.Layer.extend
   _updateJudgeLabel : (text)->
     @_judgeLabel.stopAllActions()
     @_judgeLabel.opacity = 255
-    @_judgeLabel.setString(text)
-    @_judgeLabel.runAction(cc.fadeOut(0.5))
+    @_judgeLabel.setString text
+    @_judgeLabel.runAction cc.fadeOut(0.5)
 
   _updateComboLabel : ()->
     if @_combo >= 5
       @_comboLabel.isShown = true
       @_comboLabel.stopAllActions()
       @_comboLabel.opacity = 255
-      @_comboLabel.setString(@_combo)
+      @_comboLabel.setString @_combo
     else
       if @_comboLabel.isShown
         @_comboLabel.isShown = false
-        @_comboLabel.runAction(cc.fadeOut(0.5))
+        @_comboLabel.runAction cc.fadeOut(0.5)
 
   _measureMusicTime : ->
     isPlaying = @_music.isMusicPlaying()
     if isPlaying
       if @_startTime is 0
         @_startTime  = new Date()
-        @unschedule(@_measureMusicTime)
+        @unschedule @_measureMusicTime
 
   _getCurrentTime : ->
     if @_startTime isnt 0 then (new Date() - @_startTime) / 1000 else 0

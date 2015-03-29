@@ -186,6 +186,23 @@ menu = cc.Layer.extend
 
           @addChild @_itemInfo.mode, @_selectedItemZIndex
 
+          @_itemInfo.icon = new cc.Sprite res.highWhiteImage
+          @_itemInfo.icon.attr
+            x : 180
+            y : size.height / 2 +5            
+            scale: 0
+            @_itemInfo.icon.setAnchorPoint cc.p(0,1)
+            @addChild @_itemInfo.icon, @_selectedItemZIndex
+
+          @_itemInfo.highScore  = new cc.LabelTTF "0", "Arial", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+          @_itemInfo.highScore.attr
+            x : 198
+            y : size.height / 2 
+            scale: 0
+
+          @_itemInfo.highScore.setColor cc.color(255, 255, 255, 255)
+          @addChild @_itemInfo.highScore, @_selectedItemZIndex
+    
           @_itemInfo.level = new cc.Sprite res.starWhite
           @_itemInfo.level.attr
             x : 109
@@ -196,22 +213,30 @@ menu = cc.Layer.extend
           @addChild @_itemInfo.level, @_selectedItemZIndex
 
         if target.info.mode is "normal" then @_itemInfo.mode.initWithFile res.normalImage
-        else if target.info.mode is "another" then @_itemInfo.mode.initWithFile res.anotherImage          
+        else if target.info.mode is "another" then @_itemInfo.mode.initWithFile res.anotherImage
+
+        highScore = if sys.localStorage.getItem target.info.id? then sys.localStorage.getItem  target.info.id else 0
+        @_itemInfo.highScore.setString highScore
+
+        
+        @_itemInfo.level.initWithFile res.starWhite, cc.rect(0, 0, 19*target.info.level, 18)
+        @_itemInfo.level.setAnchorPoint cc.p(0,1)
+        @_itemInfo.mode.setAnchorPoint cc.p(0,1)
+
         text = """
           #{target.info.title}
           #{target.info.artist}
           #{target.info.license}
         """
-        @_itemInfo.level.initWithFile res.starWhite, cc.rect(0, 0, 19*target.info.level, 18)
-        @_itemInfo.level.setAnchorPoint cc.p(0,1)
-        @_itemInfo.mode.setAnchorPoint cc.p(0,1)
-
+        
         @_itemInfo.setString text
         @_itemInfo.setColor cc.color(255,255,255,255)
         @_itemInfo.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
         @_itemInfo.level.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
         @_itemInfo.mode.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
-
+        @_itemInfo.highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
+        @_itemInfo.icon.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.16))
+        
         target.runAction(
           cc.sequence(
             cc.spawn(
@@ -313,7 +338,9 @@ menu = cc.Layer.extend
       @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.mode.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.level.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
-
+      @_itemInfo.highScore.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.icon.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      
       for value,i in @_shownMusicItem
         value.runAction cc.scaleTo(0.2, 1)
         value.title.runAction cc.scaleTo(0.2, 1)
@@ -355,6 +382,8 @@ menu = cc.Layer.extend
 
       @_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
       @_itemInfo.mode.runAction cc.sequence(cc.fadeOut(0.3))
+      @_itemInfo.highScore.runAction cc.sequence(cc.fadeOut(0.3))
+      @_itemInfo.icon.runAction cc.sequence(cc.fadeOut(0.3))
       @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))      
       @_enterButton.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       return true
