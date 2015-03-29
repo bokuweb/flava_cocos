@@ -111,41 +111,42 @@ gameLayer = cc.Layer.extend
     @addChild bg, 0
 
   _addJudgeLabel : ->
-    @_judgeLabel = new cc.LabelTTF "Great", "Arial", 18
+    @_judgeLabel = new cc.LabelTTF "Great", "Arial", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_judgeLabel.attr
       x : 225
       y : 225
       opacity : 0
 
-    @_judgeLabel.setColor cc.color(25,25,25,255)
+    @_judgeLabel.setColor cc.color(72,72,72,255)
     @addChild @_judgeLabel, 5
 
   _addComboLabel : ->
-    @_comboLabel = new cc.LabelTTF "0", "Arial", 18
+    @_comboLabel = new cc.LabelTTF "0", "Arial", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_comboLabel.attr
       x : 225
       y : 205
       opacity : 0
       isShown : false
 
-    @_comboLabel.setColor cc.color(25,25,25,255)
+    @_comboLabel.setColor cc.color(72,72,72,255)
     @addChild @_comboLabel, 5
 
   _renderScore : ->
+    ###
     icon = new cc.Sprite res.scoreIconImage
     icon.attr
-      x : 194
-      y : cc.winSize.height - 146
+      x : 204
+      y : cc.winSize.height - 144
       scale: 0.23
     icon.setAnchorPoint cc.p(0,1)
     @addChild icon, 5
-
-    @_scoreLabel = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    ###
+    @_scoreLabel = new cc.LabelTTF "0", "Arial", 15, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_scoreLabel.attr
-      x : 310
-      y: cc.winSize.height - 150
+      x : 210
+      y: cc.winSize.height - 170
 
-    @_scoreLabel.setColor cc.color(25,25,25,25)
+    @_scoreLabel.setColor cc.color(80,80,80,255)
     @addChild @_scoreLabel, 5
 
   _addMusicInfo : ->
@@ -183,7 +184,7 @@ gameLayer = cc.Layer.extend
     else if @_musicInfo.mode is "another" then mode = new cc.Sprite res.anotherImage
     mode.attr
       x : 110
-      y : cc.winSize.height - 126
+      y : cc.winSize.height - 128
       scale: 0.6
     mode.setAnchorPoint cc.p(0,1)
     @addChild mode, 5
@@ -200,16 +201,16 @@ gameLayer = cc.Layer.extend
   _renderHighScore : ->
     icon = new cc.Sprite res.highBlackImage
     icon.attr
-      x : 195
-      y : cc.winSize.height - 127
+      x : 175
+      y : cc.winSize.height - 129
       scale: 0.16
     icon.setAnchorPoint cc.p(0,1)
     @addChild icon, 5
 
     highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
-      x : 260
-      y : cc.winSize.height - 130
+      x : 240
+      y : cc.winSize.height - 134
 
     text = sys.localStorage.getItem @_musicInfo.id
     if text  is "" then text = 0
@@ -430,10 +431,16 @@ gameLayer = cc.Layer.extend
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
       # タッチ時の処理
-      if @_status is "playing" or  @_status is "stop"
+      if @_status is "playing"
         @_status = "preClose"
         @unschedule @_checkGameEnd
         @schedule @_closeGame, 0.01
+      else if @_status is "stop"
+        @_status = "preClose"
+        @_music.setMusicVolume 0
+        @unschedule @_checkGameEnd
+        @schedule @_closeGame, 0.01        
+
       return true
     return false
 
