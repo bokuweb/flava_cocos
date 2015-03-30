@@ -42,7 +42,7 @@ gameLayer = cc.Layer.extend
     @_note.timing = info.timing
     @_note.key = info.key
     @_note.speed = info.speed
-
+    @_endTime = info.endTime
     cc.log info.timing
     
     @_startTime = 0
