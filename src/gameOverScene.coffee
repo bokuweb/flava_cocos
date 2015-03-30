@@ -1,8 +1,9 @@
 GameOver = cc.Layer.extend
+  _music : null
   ctor: -> @_super()
 
   init: (id, stats)->
-
+    @_music = cc.audioEngine
     score = stats.score
 
     highScore = sys.localStorage.getItem id
@@ -111,6 +112,7 @@ GameOver = cc.Layer.extend
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
       # on touch
+      @_music.playEffect res.cancelEffect
       menu = new menuScene()
       cc.director.runScene menu
       return true
