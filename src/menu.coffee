@@ -145,6 +145,7 @@ menu = cc.Layer.extend
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
       if not @_selected
+        @_music.playEffect res.selectEffect
         @_selected = target.info.id
         cc.log target.info.id
         if not @_blackBackground?
@@ -345,6 +346,7 @@ menu = cc.Layer.extend
     rect = cc.rect(0, 0, s.width, s.height)
     if cc.rectContainsPoint(rect, locationInNode)
       # タッチ時の処理
+      @_music.playEffect res.cancelEffect
       @_selected = null
       @_closeButton.runAction cc.fadeOut(0.3)
       @_blackBackground.runAction cc.fadeOut(0.3)
@@ -386,6 +388,7 @@ menu = cc.Layer.extend
     rect = cc.rect(0, 0, s.width, s.height)
     if cc.rectContainsPoint(rect, locationInNode)
       # タッチ時の処理
+      @_music.playEffect res.selectEffect
       for value in @_shownMusicItem
         value.runAction(
           cc.sequence(

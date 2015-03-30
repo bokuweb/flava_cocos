@@ -13,11 +13,10 @@ gameLayer = cc.Layer.extend
   _targetY : 90
   _note :
     active : []
-    timing : [2.323000,2.878000,2.883000,3.436000,4.5670,5.127,6.759,8.982,11.269,13.500,15.731,18.002,20.242,22.448,24.753,26.960,29.180,31.455,33.730,35.899,38.170,40.377,42.665,44.886,47.127,49.354,51.654,53.825,56.081,58.306,60.544,62.781,65.039,67.278,69.498,71.773,74.010,76.216,80.793,83.015,85.224,89.752,92.022,94.294]
-    key : [0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 0, 1, 2, 3 , 4 , 0, 2]
-    speed : 600
+    timing : null
+    key : null
+    speed : 0
     index : 0
-
   _judgeLabel : null
   _threshold :
     great : 0.15
@@ -25,7 +24,6 @@ gameLayer = cc.Layer.extend
   _combo : 0
   _comboLabel : null
   _startTime : 0
-
   _score :
     real : 0
     display : 0
@@ -38,10 +36,15 @@ gameLayer = cc.Layer.extend
   ctor: -> @_super()
 
   init: (info)->
-
     @_status = "stop"
     @_note.active.length = 0
     @_note.index = 0
+    @_note.timing = info.timing
+    @_note.key = info.key
+    @_note.speed = info.speed
+
+    cc.log info.timing
+    
     @_startTime = 0
     @_score.real = 0
     @_score.display = 0
@@ -452,6 +455,7 @@ gameLayer = cc.Layer.extend
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
       # タッチ時の処理
+      @_music.playEffect res.cancelEffect
       if @_status is "playing"
         @_status = "preClose"
         @unschedule @_checkGameEnd
