@@ -228,7 +228,7 @@ gameLayer = cc.Layer.extend
     highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
       x : 240
-      y : cc.winSize.height - 134
+      y : cc.winSize.height - 133
       opacity : 0
       scale : 0
 
@@ -250,8 +250,8 @@ gameLayer = cc.Layer.extend
     @startButton.runAction(
       new cc.RepeatForever(
         cc.sequence(
-          cc.fadeTo(1, 0)
-          cc.fadeTo(1, 255)
+          cc.fadeTo 1, 0
+          cc.fadeTo 1, 255
         )
       )
     )
@@ -260,7 +260,7 @@ gameLayer = cc.Layer.extend
     eventListener = cc.EventListener.create
       event: cc.EventListener.TOUCH_ONE_BY_ONE
       swallowTouches: true
-      onTouchBegan: @_onTouchBeganStart.bind(@)
+      onTouchBegan: @_onTouchBeganStart.bind @
     cc.eventManager.addListener eventListener.clone(), @startButton
 
   _appendNote : ->
@@ -298,7 +298,7 @@ gameLayer = cc.Layer.extend
             cc.fadeOut(0.3)
             cc.CallFunc.create(()=>
               if not value.clear
-                @_updateJudgeLabel("bad")
+                @_updateJudgeLabel "Bad"
                 @_combo = 0
                 @_judgeCount.bad++
             @)
@@ -311,7 +311,7 @@ gameLayer = cc.Layer.extend
   _updateScore : ->
     if @_score.real > @_score.display then @_score.display += 10000 / @_note.timing.length
     else @_score.display = if Math.ceil(@_score.real) > 100000 then 100000 else Math.ceil(@_score.real)
-    @_scoreLabel.setString(~~@_score.display)
+    @_scoreLabel.setString ~~@_score.display
 
   _moveNote : ->
     note = @_note
@@ -335,7 +335,7 @@ gameLayer = cc.Layer.extend
     threshold = @_threshold
     for value,i in note.active
       if value.clear and not value.hasAnimationStarted and not value.removed
-        value.runAction(cc.spawn(cc.fadeOut(0.3), cc.scaleBy(0.3, 2, 2)))
+        value.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleBy(0.3, 2, 2))
         value.hasAnimationStarted = true
         if -threshold.great < (value.timing - value.clearTime) < threshold.great
           judgement = "Great"

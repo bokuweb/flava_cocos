@@ -289,7 +289,7 @@ menu = cc.Layer.extend
     return false
 
   _fadeBgm : ->
-    @_volume -= 0.05
+    @_volume -= 0.1
     @_music.setMusicVolume @_volume
     if @_volume <= 0
       @_music.stopMusic()
@@ -394,13 +394,11 @@ menu = cc.Layer.extend
         )
         value.title.runAction(cc.sequence(cc.fadeOut(0.3)))
       @schedule @_fadeBgm, 0.1
-      #@schedule @_gameStart, 1.5
-
-      @_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.mode.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.highScore.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.icon.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))      
+      @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.mode.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.highScore.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.icon.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.level.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_enterButton.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       return true
     return false
