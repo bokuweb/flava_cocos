@@ -60,8 +60,9 @@ gameLayer = cc.Layer.extend
     @_addStartButton()
 
     logo = cc.Sprite.create res.logo
-    logo.x = 83
-    logo.y = cc.director.getWinSize().height - 50
+    logo.attr
+      x : 83
+      y : cc.director.getWinSize().height - 50
     @addChild  logo, 1
 
     closeToucheventListener = cc.EventListener.create
@@ -99,8 +100,10 @@ gameLayer = cc.Layer.extend
       target.attr
         x: @_noteMarginX * i + @_noteOffsetX
         y: @_targetY
-        scale : 0.9
+        scale : 0
+        opacity : 0
       @addChild target, 1
+      target.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.9))
     return
 
   _addBackground : ->
@@ -114,7 +117,7 @@ gameLayer = cc.Layer.extend
     @_judgeLabel = new cc.LabelTTF "Great", "Arial", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_judgeLabel.attr
       x : 225
-      y : 225
+      y : 235
       opacity : 0
 
     @_judgeLabel.setColor cc.color(72,72,72,255)
@@ -145,10 +148,12 @@ gameLayer = cc.Layer.extend
     @_scoreLabel.attr
       x : 210
       y: cc.winSize.height - 170
-
+      opacity : 0
+      scale : 0
     @_scoreLabel.setColor cc.color(80,80,80,255)
     @addChild @_scoreLabel, 5
-
+    @_scoreLabel.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
+    
   _addMusicInfo : ->
     @_renderCoverImage()
     @_renderTitle()
@@ -161,13 +166,18 @@ gameLayer = cc.Layer.extend
     coverImage.attr
       x: 55
       y: cc.winSize.height - 110
+      opacity : 0
+      scale : 0
     @addChild coverImage, 6
+    coverImage.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _renderTitle : ->
     title = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     title.attr
       x : 210
       y : cc.winSize.height - 99
+      opacity : 0
+      scale : 0
 
     text = """
       #{@_musicInfo.title}
@@ -178,6 +188,7 @@ gameLayer = cc.Layer.extend
     title.setColor cc.color(51, 51, 51, 255)
     title.setString text
     @addChild title, 5
+    title.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _renderMode : ->
     if @_musicInfo.mode is "normal" then mode = new cc.Sprite res.normalImage
@@ -185,38 +196,48 @@ gameLayer = cc.Layer.extend
     mode.attr
       x : 110
       y : cc.winSize.height - 128
-      scale: 0.6
+      opacity : 0
+      scale: 0
+      
     mode.setAnchorPoint cc.p(0,1)
     @addChild mode, 5
+    mode.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
 
   _renderLevel : ->
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
       y : cc.winSize.height - 144
-      scale: 0.6
+      scale: 0
+      opacity : 0
     level.setAnchorPoint cc.p(0,1)
     @addChild level, 5
+    level.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
 
   _renderHighScore : ->
     icon = new cc.Sprite res.highBlackImage
     icon.attr
       x : 175
       y : cc.winSize.height - 129
-      scale: 0.16
+      scale: 0
+      opacity : 0
     icon.setAnchorPoint cc.p(0,1)
     @addChild icon, 5
+    icon.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.16))
 
     highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
       x : 240
-      y : cc.winSize.height - 134
+      y : cc.winSize.height - 133
+      opacity : 0
+      scale : 0
 
     text = sys.localStorage.getItem @_musicInfo.id
     if text  is "" then text = 0
     highScore.setColor cc.color(51, 51, 51, 255)
     highScore.setString text
     @addChild highScore, 5
+    highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _addStartButton : ->
     @startButton = new cc.LabelTTF "0", "Arial", 14, cc.size(200,30), cc.TEXT_ALIGNMENT_LEFT
@@ -229,8 +250,8 @@ gameLayer = cc.Layer.extend
     @startButton.runAction(
       new cc.RepeatForever(
         cc.sequence(
-          cc.fadeTo(1, 0)
-          cc.fadeTo(1, 255)
+          cc.fadeTo 1, 0
+          cc.fadeTo 1, 255
         )
       )
     )
@@ -239,7 +260,7 @@ gameLayer = cc.Layer.extend
     eventListener = cc.EventListener.create
       event: cc.EventListener.TOUCH_ONE_BY_ONE
       swallowTouches: true
-      onTouchBegan: @_onTouchBeganStart.bind(@)
+      onTouchBegan: @_onTouchBeganStart.bind @
     cc.eventManager.addListener eventListener.clone(), @startButton
 
   _appendNote : ->
@@ -277,7 +298,7 @@ gameLayer = cc.Layer.extend
             cc.fadeOut(0.3)
             cc.CallFunc.create(()=>
               if not value.clear
-                @_updateJudgeLabel("bad")
+                @_updateJudgeLabel "Bad"
                 @_combo = 0
                 @_judgeCount.bad++
             @)
@@ -290,7 +311,7 @@ gameLayer = cc.Layer.extend
   _updateScore : ->
     if @_score.real > @_score.display then @_score.display += 10000 / @_note.timing.length
     else @_score.display = if Math.ceil(@_score.real) > 100000 then 100000 else Math.ceil(@_score.real)
-    @_scoreLabel.setString(~~@_score.display)
+    @_scoreLabel.setString ~~@_score.display
 
   _moveNote : ->
     note = @_note
@@ -314,7 +335,7 @@ gameLayer = cc.Layer.extend
     threshold = @_threshold
     for value,i in note.active
       if value.clear and not value.hasAnimationStarted and not value.removed
-        value.runAction(cc.spawn(cc.fadeOut(0.3), cc.scaleBy(0.3, 2, 2)))
+        value.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleBy(0.3, 2, 2))
         value.hasAnimationStarted = true
         if -threshold.great < (value.timing - value.clearTime) < threshold.great
           judgement = "Great"

@@ -17,12 +17,18 @@ menu = cc.Layer.extend
   _previousButton : null
   _blackBackground : null
   _selected : null
-
+  _music : null
+  _volume : 1
+  
   ctor: -> @_super()
 
   _init: ->
+    @_volume = 0.5
     @_selected = null
     @_addBackground()
+    @_music = cc.audioEngine
+    @_music.setMusicVolume @_volume
+    @_music.playMusic res.selectLoopMusic, true
 
     @_maxPageNum = ~~((g_musicList.length - 1) / @_itemPerPage)
     pagerToucheventListener = cc.EventListener.create
@@ -282,6 +288,14 @@ menu = cc.Layer.extend
       return true
     return false
 
+  _fadeBgm : ->
+    @_volume -= 0.1
+    @_music.setMusicVolume @_volume
+    if @_volume <= 0
+      @_music.stopMusic()
+      @unschedule @_fadeBgm
+      @_gameStart()
+
   _gameStart : ->
     game = new gameScene()
     game.init @_shownMusicItem[@_selected].info
@@ -379,13 +393,12 @@ menu = cc.Layer.extend
           )
         )
         value.title.runAction(cc.sequence(cc.fadeOut(0.3)))
-      @schedule @_gameStart, 0.5
-
-      @_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.mode.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.highScore.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.icon.runAction cc.sequence(cc.fadeOut(0.3))
-      @_itemInfo.level.runAction cc.sequence(cc.fadeOut(0.3))      
+      @schedule @_fadeBgm, 0.1
+      @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.mode.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.highScore.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.icon.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+      @_itemInfo.level.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_enterButton.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       return true
     return false
