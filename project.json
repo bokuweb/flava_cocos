@@ -14,7 +14,7 @@
         "src/loader.js",
         "src/menu.js",
         "src/note.js",
-        "src/gameOverScene.js",
+        "src/gameover.js",
         "src/resource.js",
         "src/musiclist.js",
         "src/app.js"

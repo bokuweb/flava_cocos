@@ -53,8 +53,7 @@ cc.game.onStart = ->
   cc.director.setProjection cc.Director.PROJECTION_2D
   cc.director.setContentScaleFactor 2
   cc.view.setDesignResolutionSize 320, 480, cc.ResolutionPolicy.SHOW_ALL            
-  #cc._loadingImage = cc.backgroundImage
-  #cc._loaderImage = cc.logo
+  cc._loaderImage = cc.logo
 
   if cc.sys.isNative
     searchPaths = jsb.fileUtils.getSearchPaths()

@@ -10,7 +10,6 @@ GameOver = cc.Layer.extend
     if highScore < score
       sys.localStorage.setItem id, score
       highScore = score
-
     rank = @_calcRank score
     result = @_calcResult score, rank
 
