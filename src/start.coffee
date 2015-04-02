@@ -46,7 +46,7 @@ Start = cc.Layer.extend
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
       # on touch
-      @_music.playEffect res.cancelEffect
+      @_music.playEffect res.selectEffect
       menu = new menuScene()
       cc.director.runScene new cc.TransitionFade(1.2, menu)
       return true

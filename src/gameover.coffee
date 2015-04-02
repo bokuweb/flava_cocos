@@ -4,6 +4,7 @@ GameOver = cc.Layer.extend
 
   init: (id, stats)->
     @_music = cc.audioEngine
+    @_music.setMusicVolume 1
     score = stats.score
 
     highScore = sys.localStorage.getItem id
@@ -12,6 +13,9 @@ GameOver = cc.Layer.extend
       highScore = score
     rank = @_calcRank score
     result = @_calcResult score, rank
+
+    if result is "Failed" then @_music.playEffect res.fail
+    else @_music.playEffect res.clear
 
     @_renderStats score, rank, result
     @_renderBackground()
@@ -113,7 +117,7 @@ GameOver = cc.Layer.extend
       # on touch
       @_music.playEffect res.cancelEffect
       menu = new menuScene()
-      cc.director.runScene menu
+      cc.director.runScene new cc.TransitionFade(1.2, menu)
       return true
     return false
 

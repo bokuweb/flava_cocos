@@ -243,10 +243,10 @@ gameLayer = cc.Layer.extend
     highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _addStartButton : ->
-    @startButton = new cc.LabelTTF "0", "Arial", 14, cc.size(200,30), cc.TEXT_ALIGNMENT_LEFT
+    @startButton = new cc.LabelTTF "0", "Arial", 14
     @startButton.attr
       x : 200
-      y : cc.winSize.height - 230
+      y : cc.winSize.height / 2
 
     @startButton.setColor cc.color(51,51,51,255)
     @startButton.setString "please, touch here to start"
@@ -415,7 +415,7 @@ gameLayer = cc.Layer.extend
               great : @_judgeCount.great
               good  : @_judgeCount.good
               bad   : @_judgeCount.bad
-            cc.director.runScene gameOver
+            cc.director.runScene new cc.TransitionFade(1.2, gameOver)              
         @)
       )
 
