@@ -11,6 +11,7 @@
     "modules" : ["cocos2d"],
 
     "jsList" : [
+        "src/start.js",
         "src/loader.js",
         "src/menu.js",
         "src/note.js",

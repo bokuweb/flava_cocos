@@ -127,14 +127,14 @@ gameLayer = cc.Layer.extend
     @addChild @_judgeLabel, 5
 
   _addComboLabel : ->
-    @_comboLabel = new cc.LabelTTF "0", "Arial", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_comboLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_comboLabel.attr
       x : 225
       y : 205
       opacity : 0
       isShown : false
 
-    @_comboLabel.setColor cc.color(72,72,72,255)
+    @_comboLabel.setColor cc.color(100,100,100,255)
     @addChild @_comboLabel, 5
 
   _renderScore : ->
@@ -249,7 +249,7 @@ gameLayer = cc.Layer.extend
       y : cc.winSize.height - 230
 
     @startButton.setColor cc.color(51,51,51,255)
-    @startButton.setString "Touch here to start!"
+    @startButton.setString "please, touch here to start"
     @startButton.runAction(
       new cc.RepeatForever(
         cc.sequence(
@@ -371,7 +371,7 @@ gameLayer = cc.Layer.extend
       @_comboLabel.isShown = true
       @_comboLabel.stopAllActions()
       @_comboLabel.opacity = 255
-      @_comboLabel.setString "x"+@_combo+"chain!"
+      @_comboLabel.setString "x"+@_combo+"chain"
     else
       if @_comboLabel.isShown
         @_comboLabel.isShown = false
@@ -439,6 +439,7 @@ gameLayer = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
+      return if @_status is "playing"
       @startButton.stopAllActions()
       @startButton.runAction cc.fadeTo(1, 0)
       @_status = "playing"

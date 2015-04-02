@@ -71,8 +71,9 @@ cc.game.onStart = ->
       localStorage : localStorage
 
   cc.LoaderScene.preload g_resources, ->
-    menu = new menuScene()
-    cc.director.runScene menu
+    start = new StartScene()
+    start.init()
+    cc.director.runScene start
   , @
 
 cc.game.run()

@@ -301,7 +301,7 @@ menu = cc.Layer.extend
     game = new gameScene()
     game.init @_shownMusicItem[@_selected].info
     @_selected = null
-    cc.director.runScene game
+    cc.director.runScene new cc.TransitionFade(1.2, game)
 
   _onTouchBeganPager : (touch, event) ->
     target = event.getCurrentTarget()
@@ -395,7 +395,7 @@ menu = cc.Layer.extend
             cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
           )
         )
-        value.title.runAction(cc.sequence(cc.fadeOut(0.3)))
+        value.title.runAction cc.sequence(cc.fadeOut(0.3))
       @schedule @_fadeBgm, 0.1
       @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.mode.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
