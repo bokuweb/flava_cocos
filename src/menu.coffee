@@ -144,7 +144,7 @@ menu = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
-      if not @_selected
+      unless @_selected?
         @_music.playEffect res.selectEffect
         @_selected = target.info.id
         cc.log target.info.id
