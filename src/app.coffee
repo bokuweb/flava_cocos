@@ -80,7 +80,7 @@ gameLayer = cc.Layer.extend
     cc.eventManager.addListener closeToucheventListener.clone(), closeButton
     @addChild closeButton, 1
    
-    @_debugLabel = new cc.LabelTTF "", "Arial", 8
+    @_debugLabel = new cc.LabelTTF "", "res/fonts/Planer_Reg.ttf", 8
     @_debugLabel.attr
       x : 120
       y: cc.winSize.height - 200
@@ -117,7 +117,7 @@ gameLayer = cc.Layer.extend
     @addChild bg, 0
 
   _addJudgeLabel : ->
-    @_judgeLabel = new cc.LabelTTF "Great", "Arial", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_judgeLabel = new cc.LabelTTF "Great", "res/fonts/Planer_Reg.ttf", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_judgeLabel.attr
       x : 225
       y : 235
@@ -127,7 +127,7 @@ gameLayer = cc.Layer.extend
     @addChild @_judgeLabel, 5
 
   _addComboLabel : ->
-    @_comboLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_comboLabel = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_comboLabel.attr
       x : 225
       y : 205
@@ -138,19 +138,10 @@ gameLayer = cc.Layer.extend
     @addChild @_comboLabel, 5
 
   _renderScore : ->
-    ###
-    icon = new cc.Sprite res.scoreIconImage
-    icon.attr
-      x : 204
-      y : cc.winSize.height - 144
-      scale: 0.23
-    icon.setAnchorPoint cc.p(0,1)
-    @addChild icon, 5
-    ###
-    @_scoreLabel = new cc.LabelTTF "0", "Arial", 15, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_scoreLabel = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_scoreLabel.attr
       x : 210
-      y: cc.winSize.height - 170
+      y: cc.winSize.height - 160
       opacity : 0
       scale : 0
     @_scoreLabel.setColor cc.color(80,80,80,255)
@@ -159,7 +150,7 @@ gameLayer = cc.Layer.extend
     
   _addMusicInfo : ->
     @_renderCoverImage()
-    @_renderTitle()
+    @_renderInfo()
     @_renderMode()
     @_renderLevel()
     @_renderHighScore()
@@ -174,31 +165,42 @@ gameLayer = cc.Layer.extend
     @addChild coverImage, 6
     coverImage.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
-  _renderTitle : ->
+  _renderInfo : ->
     title = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     title.attr
       x : 210
-      y : cc.winSize.height - 99
+      y : cc.winSize.height - 84
       opacity : 0
       scale : 0
 
+    title.setColor cc.color(51, 51, 51, 255)
+    title.setString @_musicInfo.title
+    @addChild title, 5
+    title.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
+    
+    info = new cc.LabelTTF "0", "Arial", 10, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    info.attr
+      x : 210
+      y : cc.winSize.height - 103
+      opacity : 0
+      scale : 0
+      
     text = """
-      #{@_musicInfo.title}
       #{@_musicInfo.artist}
       #{@_musicInfo.license}
     """
 
-    title.setColor cc.color(51, 51, 51, 255)
-    title.setString text
-    @addChild title, 5
-    title.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
+    info.setColor cc.color(51, 51, 51, 255)
+    info.setString text
+    @addChild info, 5
+    info.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _renderMode : ->
     if @_musicInfo.mode is "normal" then mode = new cc.Sprite res.normalImage
     else if @_musicInfo.mode is "another" then mode = new cc.Sprite res.anotherImage
     mode.attr
       x : 110
-      y : cc.winSize.height - 128
+      y : cc.winSize.height - 118
       opacity : 0
       scale: 0
       
@@ -210,7 +212,7 @@ gameLayer = cc.Layer.extend
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 144
+      y : cc.winSize.height - 134
       scale: 0
       opacity : 0
     level.setAnchorPoint cc.p(0,1)
@@ -221,17 +223,17 @@ gameLayer = cc.Layer.extend
     icon = new cc.Sprite res.highBlackImage
     icon.attr
       x : 175
-      y : cc.winSize.height - 129
+      y : cc.winSize.height - 119
       scale: 0
       opacity : 0
     icon.setAnchorPoint cc.p(0,1)
     @addChild icon, 5
     icon.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.16))
 
-    highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
+    highScore  = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
       x : 240
-      y : cc.winSize.height - 133
+      y : cc.winSize.height - 123
       opacity : 0
       scale : 0
 
@@ -243,7 +245,7 @@ gameLayer = cc.Layer.extend
     highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _addStartButton : ->
-    @startButton = new cc.LabelTTF "0", "Arial", 11
+    @startButton = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 12
     @startButton.attr
       x : cc.winSize.width / 2
       y : cc.winSize.height / 2

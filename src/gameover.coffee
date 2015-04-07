@@ -25,7 +25,7 @@ GameOver = cc.Layer.extend
     logo.y = cc.director.getWinSize().height - 50
     @addChild  logo, 1
 
-    @_debugLabel = new cc.LabelTTF "", "Arial", 8
+    @_debugLabel = new cc.LabelTTF "", "res/fonts/mplus-1p-bold.ttf", 8
     @_debugLabel.attr
       x : 120
       y: cc.winSize.height - 300
@@ -52,7 +52,7 @@ GameOver = cc.Layer.extend
     overBg.setOpacity 168
     @addChild overBg, 4
 
-    resultLabel = new cc.LabelTTF "0", "Arial Bold", 76, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
+    resultLabel = new cc.LabelTTF "0", "res/fonts/mplus-1p-bold.ttf", 64, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
     resultLabel.attr
       x : 160
       y : cc.director.getWinSize().height - 90
@@ -60,7 +60,7 @@ GameOver = cc.Layer.extend
     resultLabel.setString result
     @addChild resultLabel, 5
 
-    scoreLabel = new cc.LabelTTF "0", "Arial Bold", 80, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
+    scoreLabel = new cc.LabelTTF "0", "res/fonts/mplus-1p-bold.ttf", 72, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
     scoreLabel.attr
       x : 160
       y : cc.director.getWinSize().height - 190
@@ -69,7 +69,7 @@ GameOver = cc.Layer.extend
     scoreLabel.setString score
     @addChild scoreLabel, 5
 
-    rankLabel = new cc.LabelTTF "0", "Arial Bold", 120, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
+    rankLabel = new cc.LabelTTF "0", "res/fonts/mplus-1p-bold.ttf", 112, cc.size(320,0), cc.TEXT_ALIGNMENT_CENTER
     rankLabel.attr
       x : 160
       y : cc.director.getWinSize().height - 320
@@ -78,7 +78,7 @@ GameOver = cc.Layer.extend
     rankLabel.setString rank
     @addChild rankLabel, 5
 
-    rankMessageLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(100,0), cc.TEXT_ALIGNMENT_LEFT
+    rankMessageLabel = new cc.LabelTTF "0", "res/fonts/mplus-1p-bold.ttf", 16, cc.size(100,0), cc.TEXT_ALIGNMENT_LEFT
     rankMessageLabel.attr
       x : 100
       y : cc.director.getWinSize().height - 250
@@ -87,7 +87,7 @@ GameOver = cc.Layer.extend
     rankMessageLabel.setString "your rank is.."
     @addChild rankMessageLabel, 5
 
-    scoreMessageLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(100,0), cc.TEXT_ALIGNMENT_LEFT
+    scoreMessageLabel = new cc.LabelTTF "0", "res/fonts/mplus-1p-bold.ttf", 16, cc.size(100,0), cc.TEXT_ALIGNMENT_LEFT
     scoreMessageLabel.attr
       x : 100
       y : cc.director.getWinSize().height - 140

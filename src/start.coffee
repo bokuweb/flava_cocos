@@ -16,7 +16,7 @@ Start = cc.Layer.extend
     bg.y = cc.director.getWinSize().height / 2
     @addChild bg, 0
 
-    label = new cc.LabelTTF "please, touch here to start", "Arial", 10
+    label = new cc.LabelTTF "please, touch here to start","res/fonts/Planer_Reg.ttf", 11
     label.attr
       x : cc.director.getWinSize().width / 2
       y : cc.director.getWinSize().height / 2 - 30

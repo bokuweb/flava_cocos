@@ -52,8 +52,10 @@ cc.game.onStart = ->
   cc.view.resizeWithBrowserSize true
   cc.director.setProjection cc.Director.PROJECTION_2D
   cc.director.setContentScaleFactor 2
-  cc.view.setDesignResolutionSize 320, 480, cc.ResolutionPolicy.SHOW_ALL            
   cc._loaderImage = cc.logo
+
+  height =  cc.view.getFrameSize().height / cc.view.getFrameSize().width * 320
+  cc.view.setDesignResolutionSize 320, height, cc.ResolutionPolicy.SHOW_ALL
 
   if cc.sys.isNative
     searchPaths = jsb.fileUtils.getSearchPaths()
@@ -65,6 +67,8 @@ cc.game.onStart = ->
       #if cc.winSize.height > 960
       #  cc.view.setDesignResolutionSize 320, 568, cc.ResolutionPolicy.SHOW_ALL
     jsb.fileUtils.setSearchPaths searchPaths
+  else
+    cc.view.setDesignResolutionSize 320, 480, cc.ResolutionPolicy.SHOW_ALL
 
   if not window.sys
     window.sys =

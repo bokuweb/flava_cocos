@@ -176,7 +176,7 @@ menu = cc.Layer.extend
         #@_previousButton.runAction(cc.scaleTo(0.2, 0))
 
         if not @_itemInfo?
-          @_itemInfo = new cc.LabelTTF "a", "Arial", 14
+          @_itemInfo = new cc.LabelTTF "a","Arial", 14
           @_itemInfo.attr
             x : 190
             y : size.height / 2 + 38
