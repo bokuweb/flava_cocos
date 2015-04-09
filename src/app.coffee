@@ -138,7 +138,7 @@ gameLayer = cc.Layer.extend
     @addChild @_comboLabel, 5
 
   _renderScore : ->
-    @_scoreLabel = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_scoreLabel = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 15, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_scoreLabel.attr
       x : 210
       y: cc.winSize.height - 160
@@ -169,7 +169,7 @@ gameLayer = cc.Layer.extend
     title = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     title.attr
       x : 210
-      y : cc.winSize.height - 84
+      y : cc.winSize.height - 82
       opacity : 0
       scale : 0
 
@@ -200,7 +200,7 @@ gameLayer = cc.Layer.extend
     else if @_musicInfo.mode is "another" then mode = new cc.Sprite res.anotherImage
     mode.attr
       x : 110
-      y : cc.winSize.height - 118
+      y : cc.winSize.height - 120
       opacity : 0
       scale: 0
       
@@ -212,7 +212,7 @@ gameLayer = cc.Layer.extend
     level = new cc.Sprite res.star, cc.rect(0, 0, 19*@_musicInfo.level, 18)
     level.attr
       x : 110
-      y : cc.winSize.height - 134
+      y : cc.winSize.height - 136
       scale: 0
       opacity : 0
     level.setAnchorPoint cc.p(0,1)
@@ -223,7 +223,7 @@ gameLayer = cc.Layer.extend
     icon = new cc.Sprite res.highBlackImage
     icon.attr
       x : 175
-      y : cc.winSize.height - 119
+      y : cc.winSize.height - 121
       scale: 0
       opacity : 0
     icon.setAnchorPoint cc.p(0,1)
@@ -233,7 +233,7 @@ gameLayer = cc.Layer.extend
     highScore  = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
       x : 240
-      y : cc.winSize.height - 123
+      y : cc.winSize.height - 125
       opacity : 0
       scale : 0
 
@@ -445,7 +445,7 @@ gameLayer = cc.Layer.extend
       @startButton.stopAllActions()
       @startButton.runAction cc.fadeTo(1, 0)
       @_status = "playing"
-      @_music.playMusic res.music, false
+      @_music.playMusic @_musicInfo.music, false
       @schedule @_checkGameEnd, 1
       @scheduleUpdate()
       return true

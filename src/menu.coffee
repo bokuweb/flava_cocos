@@ -72,7 +72,7 @@ menu = cc.Layer.extend
       onTouchBegan: @_onTouchBeganMusicItem.bind(@)
 
     for value,i in g_musicList[@_itemPerPage * page...@_itemPerPage * (page + 1)] when value?
-      item = new cc.Sprite res.coverImage, cc.rect(0, 0, 60, 60)
+      item = new cc.Sprite value.coverImage, cc.rect(0, 0, 60, 60)
       item.attr
         x: (i % @_itemnumPerLine) * 104 + 55
         y: ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 135
@@ -150,7 +150,7 @@ menu = cc.Layer.extend
         cc.log target.info.id
         if not @_blackBackground?
           @_blackBackground = cc.LayerColor.create new cc.Color(0,0,0,0)
-          @addChild(@_blackBackground, @_overBackgroundZIndex)
+          @addChild @_blackBackground, @_overBackgroundZIndex
 
         @_blackBackground.setOpacity 160
 
@@ -176,10 +176,10 @@ menu = cc.Layer.extend
         #@_previousButton.runAction(cc.scaleTo(0.2, 0))
 
         if not @_itemInfo?
-          @_itemInfo = new cc.LabelTTF "a","Arial", 14
+          @_itemInfo = new cc.LabelTTF "a","Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
           @_itemInfo.attr
-            x : 190
-            y : size.height / 2 + 38
+            x : 208
+            y : size.height / 2 + 32
             opacity : 255
             scale : 0
           @addChild @_itemInfo, @_selectedItemZIndex
@@ -236,7 +236,7 @@ menu = cc.Layer.extend
           #{target.info.artist}
           #{target.info.license}
         """
-        
+
         @_itemInfo.setString text
         @_itemInfo.setColor cc.color(255,255,255,255)
         @_itemInfo.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
@@ -244,14 +244,14 @@ menu = cc.Layer.extend
         @_itemInfo.mode.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.6))
         @_itemInfo.highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
         @_itemInfo.icon.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.16))
-        
+
         target.runAction(
           cc.sequence(
             cc.spawn(
-              cc.moveTo(0.2, size.width / 2 - 100, size.height / 2 + 30)
-              cc.scaleTo(0.2, 0)
+              cc.moveTo 0.2, size.width / 2 - 100, size.height / 2 + 18
+              cc.scaleTo 0.2, 0 
             )
-            cc.scaleTo(0.2, 1)
+            cc.scaleTo 0.2, 1
           )
         )
 
@@ -307,8 +307,8 @@ menu = cc.Layer.extend
     target = event.getCurrentTarget()
     locationInNode = target.convertToNodeSpace touch.getLocation()
     s = target.getContentSize()
-    rect = cc.rect(0, 0, s.width, s.height)
-    if (cc.rectContainsPoint(rect, locationInNode))
+    rect = cc.rect 0, 0, s.width, s.height
+    if cc.rectContainsPoint rect, locationInNode
       # タッチ時の処理
       if target.sequence is "next"
         if @_showPageNum < @_maxPageNum then @_showPageNum++ else return
@@ -317,9 +317,9 @@ menu = cc.Layer.extend
       for value in @_shownMusicItem
         value.runAction(
           cc.sequence(
-            cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
+            cc.spawn cc.fadeOut(0.3), cc.scaleTo(0.3, 0)
             cc.CallFunc.create(()->
-              @removeChild(value)
+              @removeChild value
             @)
           )
         )
