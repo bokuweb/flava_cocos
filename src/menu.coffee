@@ -75,7 +75,7 @@ menu = cc.Layer.extend
       item = new cc.Sprite value.coverImage, cc.rect(0, 0, 60, 60)
       item.attr
         x: (i % @_itemnumPerLine) * 104 + 55
-        y: ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 135
+        y: ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 135
         scale: 0
         opacity : 0
         info : value
@@ -83,11 +83,11 @@ menu = cc.Layer.extend
 
       cc.eventManager.addListener(musicItemToucheventListener.clone(), item)
       @addChild item, @_notSelectedItemZIndex
-      
-      item.title = new cc.LabelTTF "", "Arial", 12
+
+      item.title = new cc.LabelTTF "", "Arial", 11
       item.title.attr
         x : (i % @_itemnumPerLine) * 104 + 55
-        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 177
+        y : ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 177
         opacity: 0
         scale: 1
       item.title.setColor cc.color(25,25,25,255)
@@ -96,7 +96,7 @@ menu = cc.Layer.extend
       item.artist = new cc.LabelTTF "", "Arial", 10
       item.artist.attr
         x : (i % @_itemnumPerLine) * 104 + 55
-        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 190
+        y : ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 190
         opacity: 0
         scale: 1
       item.artist.setColor cc.color(25,25,25,255)
@@ -109,7 +109,7 @@ menu = cc.Layer.extend
       else if value.mode is "another" then item.mode = new cc.Sprite res.anotherImage
       item.mode.attr
         x : (i % @_itemnumPerLine) * 104 + 55
-        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 206
+        y : ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 206
         opacity: 0
         scale: 0.6
       @addChild item.mode, 10
@@ -117,7 +117,7 @@ menu = cc.Layer.extend
       item.level = new cc.Sprite res.star, cc.rect(0, 0, 19*value.level, 18)
       item.level.attr
         x : (i % @_itemnumPerLine) * 104 + 55
-        y : ~~(i / @_itemnumPerLine) * -160 + cc.director.getWinSize().height - 219
+        y : ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 219
         opacity: 0
         scale: 0.5
       @addChild item.level, 10

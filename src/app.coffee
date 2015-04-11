@@ -138,7 +138,7 @@ gameLayer = cc.Layer.extend
     @addChild @_comboLabel, 5
 
   _renderScore : ->
-    @_scoreLabel = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 15, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_scoreLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_scoreLabel.attr
       x : 210
       y: cc.winSize.height - 160
@@ -230,7 +230,7 @@ gameLayer = cc.Layer.extend
     @addChild icon, 5
     icon.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.16))
 
-    highScore  = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
+    highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
       x : 240
       y : cc.winSize.height - 125
