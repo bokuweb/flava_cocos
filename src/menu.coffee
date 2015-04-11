@@ -36,29 +36,28 @@ menu = cc.Layer.extend
       swallowTouches: true
       onTouchBegan: @_onTouchBeganPager.bind(@)
     @_shownMusicItem.length = 0
-    @_showMusicItem(0)
+    @_showMusicItem 0
 
-    ###
-    @_nextButton = new cc.Sprite(res.testImage, cc.rect(0, 0, 45, 45))
+    @_nextButton ?= new cc.LabelTTF "next > ", "res/fonts/Planer_Reg.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
     @_nextButton.attr
-      x : cc.director.getWinSize().width
+      x : 280
+      y : cc.director.getWinSize().height - 85
       sequence : "next"
+      scale : 1
+    @_nextButton.setColor cc.color(25,25,25,255)
+    if @_maxPageNum is 0 then @_nextButton.scale = 0
+    cc.eventManager.addListener pagerToucheventListener.clone(), @_nextButton
+    @addChild @_nextButton, @_nextButtonZIndex
 
-    if @_maxPageNum is 0 then @_nextButton.opacity = 0
-    
-    cc.eventManager.addListener(pagerToucheventListener.clone(), @_nextButton)
-    @addChild(@_nextButton, @_nextButtonZIndex)
-
-    
-    @_previousButton = new cc.Sprite(res.testImage, cc.rect(0, 0, 45, 45))
+    @_previousButton ?= new cc.LabelTTF "< previous ", "res/fonts/Planer_Reg.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
     @_previousButton.attr
-      x : 0
-      opacity : 0
+      x : 52
+      y : cc.director.getWinSize().height - 85
       sequence : "previous"
-
-    cc.eventManager.addListener(pagerToucheventListener.clone(), @_previousButton)
-    @addChild(@_previousButton, @_previousButtonZIndex)
-    ###
+      scale : 0
+    @_previousButton.setColor cc.color(25,25,25,255)
+    cc.eventManager.addListener pagerToucheventListener.clone(), @_previousButton
+    @addChild @_previousButton, @_previousButtonZIndex
 
     logo = cc.Sprite.create res.logo
     logo.x = 83
@@ -169,11 +168,11 @@ menu = cc.Layer.extend
           value.runAction cc.scaleTo(0.2, 0)
           value.title.runAction cc.scaleTo(0.2, 0)
           value.artist.runAction cc.scaleTo(0.2, 0)
-          value.mode.runAction cc.scaleTo(0.2, 0)          
+          value.mode.runAction cc.scaleTo(0.2, 0)
           value.level.runAction cc.scaleTo(0.2, 0)
 
-        #@_nextButton.runAction(cc.scaleTo(0.2, 0))
-        #@_previousButton.runAction(cc.scaleTo(0.2, 0))
+        @_nextButton.runAction cc.scaleTo(0.2, 0)
+        @_previousButton.runAction cc.scaleTo(0.2, 0)
 
         if not @_itemInfo?
           @_itemInfo = new cc.LabelTTF "a","Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
@@ -196,7 +195,7 @@ menu = cc.Layer.extend
           @_itemInfo.icon = new cc.Sprite res.highWhiteImage
           @_itemInfo.icon.attr
             x : 180
-            y : size.height / 2 + 4        
+            y : size.height / 2 + 4
             scale: 0
             @_itemInfo.icon.setAnchorPoint cc.p(0,1)
             @addChild @_itemInfo.icon, @_selectedItemZIndex
@@ -209,7 +208,7 @@ menu = cc.Layer.extend
 
           @_itemInfo.highScore.setColor cc.color(255, 255, 255, 255)
           @addChild @_itemInfo.highScore, @_selectedItemZIndex
-    
+
           @_itemInfo.level = new cc.Sprite res.starWhite
           @_itemInfo.level.attr
             x : 109
@@ -225,8 +224,6 @@ menu = cc.Layer.extend
         highScore = sys.localStorage.getItem target.info.id
         if highScore is "" then highScore = 0
         @_itemInfo.highScore.setString highScore
-
-        
         @_itemInfo.level.initWithFile res.starWhite, cc.rect(0, 0, 19*target.info.level, 18)
         @_itemInfo.level.setAnchorPoint cc.p(0,1)
         @_itemInfo.mode.setAnchorPoint cc.p(0,1)
@@ -311,31 +308,55 @@ menu = cc.Layer.extend
     if cc.rectContainsPoint rect, locationInNode
       # タッチ時の処理
       if target.sequence is "next"
-        if @_showPageNum < @_maxPageNum then @_showPageNum++ else return
+        if @_showPageNum < @_maxPageNum
+          @_showPageNum++
+          @_previousButton.runAction cc.scaleTo(0.2, 1)
+          @_nextButton.runAction cc.scaleTo(0.2, 0) if @_showPageNum is @_maxPageNum
+        else return
       else
-        if @_showPageNum > 0 then @_showPageNum-- else return
+        if @_showPageNum > 0
+          @_nextButton.runAction cc.scaleTo(0.2, 1)
+          @_showPageNum--
+          @_previousButton.runAction cc.scaleTo(0.2, 0) if @_showPageNum is 0
+        else return
+
       for value in @_shownMusicItem
         value.runAction(
-          cc.sequence(
-            cc.spawn cc.fadeOut(0.3), cc.scaleTo(0.3, 0)
-            cc.CallFunc.create(()->
+          cc.sequence cc.spawn cc.fadeOut(0.3), cc.scaleTo(0.3, 0), cc.CallFunc.create(()->
               @removeChild value
-            @)
-          )
+          @)
         )
         value.title.runAction(
-          cc.sequence(
-            cc.fadeOut(0.3)
-            cc.CallFunc.create(()->
-              value.title.opacity = 0
-              @removeChild(value.title)
-            @)
-          )
+          cc.sequence cc.fadeOut(0.3), cc.CallFunc.create(()->
+              @removeChild value.title
+          @)
         )
-      setTimeout ()=>
+
+        value.artist.runAction(
+          cc.sequence cc.fadeOut(0.3), cc.CallFunc.create(()->
+              @removeChild value.artist
+          @)
+        )
+
+        value.mode.runAction(
+          cc.sequence cc.fadeOut(0.3), cc.CallFunc.create(()->
+              @removeChild value.mode
+            @)
+        )
+
+        value.level.runAction(
+          cc.sequence cc.fadeOut(0.3), cc.CallFunc.create(()->
+              @removeChild value.level
+            @)
+        )
+
+      scheduleShow = ->
         @_shownMusicItem = []
-        @_showMusicItem(@_showPageNum)
-      , 500
+        @_showMusicItem @_showPageNum
+        @unschedule scheduleShow
+
+      @schedule scheduleShow, 0.5
+
       return true
     return false
 
@@ -350,22 +371,24 @@ menu = cc.Layer.extend
       @_selected = null
       @_closeButton.runAction cc.fadeOut(0.3)
       @_blackBackground.runAction cc.fadeOut(0.3)
-      #@_itemInfo.runAction cc.sequence(cc.fadeOut(0.3))
+
       @_enterButton.runAction cc.sequence(cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)))
       @_itemInfo.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.mode.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.level.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.highScore.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
       @_itemInfo.icon.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0))
-      
+
+      @_previousButton.runAction cc.scaleTo(0.2, 1) if @_showPageNum > 0
+      @_nextButton.runAction cc.scaleTo(0.2, 1) if @_showPageNum isnt @_maxPageNum
+
       for value,i in @_shownMusicItem
         value.runAction cc.scaleTo(0.2, 1)
         value.title.runAction cc.scaleTo(0.2, 1)
-        value.artist.runAction cc.scaleTo(0.2, 1)        
+        value.artist.runAction cc.scaleTo(0.2, 1)
         value.mode.runAction cc.scaleTo(0.2, 0.6)
         value.level.runAction cc.scaleTo(0.2, 0.5)
-      #@_nextButton.runAction(cc.scaleTo(0.2, 1))
-      #@_previousButton.runAction(cc.scaleTo(0.2, 1))
+
       for value,i  in @_shownMusicItem when value.hasSelected
         value.hasSelected = false
         value.runAction(
