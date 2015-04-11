@@ -16,7 +16,7 @@ Start = cc.Layer.extend
     bg.y = cc.director.getWinSize().height / 2
     @addChild bg, 0
 
-    label = new cc.LabelTTF "please, touch here to start","res/fonts/Planer_Reg.ttf", 11
+    label = new cc.LabelTTF "please, touch here to start","res/fonts/quicksandbook.ttf", 11
     label.attr
       x : cc.director.getWinSize().width / 2
       y : cc.director.getWinSize().height / 2 - 30
@@ -30,8 +30,7 @@ Start = cc.Layer.extend
         )
       )
     )
-    
-    
+
     bgToucheventListener = cc.EventListener.create
       event: cc.EventListener.TOUCH_ONE_BY_ONE
       swallowTouches: true

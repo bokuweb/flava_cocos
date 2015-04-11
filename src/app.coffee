@@ -79,16 +79,7 @@ gameLayer = cc.Layer.extend
       y : cc.director.getWinSize().height - 40
     cc.eventManager.addListener closeToucheventListener.clone(), closeButton
     @addChild closeButton, 1
-   
-    @_debugLabel = new cc.LabelTTF "", "res/fonts/Planer_Reg.ttf", 8
-    @_debugLabel.attr
-      x : 120
-      y: cc.winSize.height - 200
-    @_debugLabel.setColor cc.color(25,25,25,255)      
-    @addChild @_debugLabel, 99      
 
-    #@_debugLabel.setString info.id + " / " + sys.localStorage.getItem info.id
-    
   update: ->
     @_measureMusicTime()
     @_appendNote()
@@ -117,7 +108,7 @@ gameLayer = cc.Layer.extend
     @addChild bg, 0
 
   _addJudgeLabel : ->
-    @_judgeLabel = new cc.LabelTTF "Great", "res/fonts/Planer_Reg.ttf", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_judgeLabel = new cc.LabelTTF "Great", "res/fonts/quicksandbold.ttf", 20, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_judgeLabel.attr
       x : 225
       y : 235
@@ -127,7 +118,7 @@ gameLayer = cc.Layer.extend
     @addChild @_judgeLabel, 5
 
   _addComboLabel : ->
-    @_comboLabel = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_comboLabel = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_comboLabel.attr
       x : 225
       y : 205
@@ -138,7 +129,7 @@ gameLayer = cc.Layer.extend
     @addChild @_comboLabel, 5
 
   _renderScore : ->
-    @_scoreLabel = new cc.LabelTTF "0", "Arial", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    @_scoreLabel = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 16, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     @_scoreLabel.attr
       x : 210
       y: cc.winSize.height - 160
@@ -147,7 +138,7 @@ gameLayer = cc.Layer.extend
     @_scoreLabel.setColor cc.color(80,80,80,255)
     @addChild @_scoreLabel, 5
     @_scoreLabel.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
-    
+
   _addMusicInfo : ->
     @_renderCoverImage()
     @_renderInfo()
@@ -166,7 +157,7 @@ gameLayer = cc.Layer.extend
     coverImage.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _renderInfo : ->
-    title = new cc.LabelTTF "0", "Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    title = new cc.LabelTTF "0","res/fonts/quicksandbold.ttf", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     title.attr
       x : 210
       y : cc.winSize.height - 82
@@ -178,7 +169,7 @@ gameLayer = cc.Layer.extend
     @addChild title, 5
     title.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
     
-    info = new cc.LabelTTF "0", "Arial", 10, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+    info = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 10, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
     info.attr
       x : 210
       y : cc.winSize.height - 103
@@ -230,7 +221,7 @@ gameLayer = cc.Layer.extend
     @addChild icon, 5
     icon.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 0.16))
 
-    highScore  = new cc.LabelTTF "0", "Arial", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
+    highScore  = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 12, cc.size(100, 0), cc.TEXT_ALIGNMENT_LEFT
     highScore.attr
       x : 240
       y : cc.winSize.height - 125
@@ -245,7 +236,7 @@ gameLayer = cc.Layer.extend
     highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _addStartButton : ->
-    @startButton = new cc.LabelTTF "0", "res/fonts/Planer_Reg.ttf", 12
+    @startButton = new cc.LabelTTF "0", "res/fonts/quicksandbook.ttf", 12
     @startButton.attr
       x : cc.winSize.width / 2
       y : cc.winSize.height / 2
@@ -457,7 +448,6 @@ gameLayer = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
-      # タッチ時の処理
       @_music.playEffect res.cancelEffect
       if @_status is "playing"
         @_status = "preClose"
@@ -467,8 +457,7 @@ gameLayer = cc.Layer.extend
         @_status = "preClose"
         @_music.setMusicVolume 0
         @unschedule @_checkGameEnd
-        @schedule @_closeGame, 0.01        
-
+        @schedule @_closeGame, 0.01
       return true
     return false
 

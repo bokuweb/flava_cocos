@@ -38,7 +38,7 @@ menu = cc.Layer.extend
     @_shownMusicItem.length = 0
     @_showMusicItem 0
 
-    @_nextButton ?= new cc.LabelTTF "next > ", "res/fonts/Planer_Reg.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+    @_nextButton ?= new cc.LabelTTF "next > ", "res/fonts/quicksandbold.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
     @_nextButton.attr
       x : 280
       y : cc.director.getWinSize().height - 85
@@ -49,7 +49,7 @@ menu = cc.Layer.extend
     cc.eventManager.addListener pagerToucheventListener.clone(), @_nextButton
     @addChild @_nextButton, @_nextButtonZIndex
 
-    @_previousButton ?= new cc.LabelTTF "< previous ", "res/fonts/Planer_Reg.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+    @_previousButton ?= new cc.LabelTTF "< previous ","res/fonts/quicksandbold.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
     @_previousButton.attr
       x : 52
       y : cc.director.getWinSize().height - 85
@@ -83,7 +83,7 @@ menu = cc.Layer.extend
       cc.eventManager.addListener(musicItemToucheventListener.clone(), item)
       @addChild item, @_notSelectedItemZIndex
 
-      item.title = new cc.LabelTTF "", "Arial", 11
+      item.title = new cc.LabelTTF "", "res/fonts/quicksandbold.ttf", 11
       item.title.attr
         x : (i % @_itemnumPerLine) * 104 + 55
         y : ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 177
@@ -92,7 +92,7 @@ menu = cc.Layer.extend
       item.title.setColor cc.color(25,25,25,255)
       item.title.setString value.title
 
-      item.artist = new cc.LabelTTF "", "Arial", 10
+      item.artist = new cc.LabelTTF "", "res/fonts/quicksandbold.ttf", 10
       item.artist.attr
         x : (i % @_itemnumPerLine) * 104 + 55
         y : ~~(i / @_itemnumPerLine) * -165 + cc.director.getWinSize().height - 190
@@ -175,7 +175,7 @@ menu = cc.Layer.extend
         @_previousButton.runAction cc.scaleTo(0.2, 0)
 
         if not @_itemInfo?
-          @_itemInfo = new cc.LabelTTF "a","Arial", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
+          @_itemInfo = new cc.LabelTTF "a","res/fonts/quicksandbold.ttf", 12, cc.size(200,0), cc.TEXT_ALIGNMENT_LEFT
           @_itemInfo.attr
             x : 208
             y : size.height / 2 + 32
@@ -200,7 +200,7 @@ menu = cc.Layer.extend
             @_itemInfo.icon.setAnchorPoint cc.p(0,1)
             @addChild @_itemInfo.icon, @_selectedItemZIndex
 
-          @_itemInfo.highScore  = new cc.LabelTTF "0", "Arial", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+          @_itemInfo.highScore  = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
           @_itemInfo.highScore.attr
             x : 212
             y : size.height / 2
@@ -306,7 +306,6 @@ menu = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
-      # タッチ時の処理
       if target.sequence is "next"
         if @_showPageNum < @_maxPageNum
           @_showPageNum++
@@ -366,7 +365,6 @@ menu = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect(0, 0, s.width, s.height)
     if cc.rectContainsPoint(rect, locationInNode)
-      # タッチ時の処理
       @_music.playEffect res.cancelEffect
       @_selected = null
       @_closeButton.runAction cc.fadeOut(0.3)
@@ -410,7 +408,6 @@ menu = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect(0, 0, s.width, s.height)
     if cc.rectContainsPoint(rect, locationInNode)
-      # タッチ時の処理
       @_music.playEffect res.selectEffect
       for value in @_shownMusicItem
         value.runAction(
