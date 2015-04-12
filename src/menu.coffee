@@ -90,8 +90,8 @@ menu = cc.Layer.extend
         opacity: 0
         scale: 1
       item.title.setColor cc.color(25,25,25,255)
-      item.title.setString value.title
-
+      title = if value.title.length > 15 then value.title[0...14] + ".."else value.title
+      item.title.setString title
       item.artist = new cc.LabelTTF "", "res/fonts/quicksandbold.ttf", 10
       item.artist.attr
         x : (i % @_itemnumPerLine) * 104 + 55
