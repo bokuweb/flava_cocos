@@ -1,7 +1,7 @@
 gameLayer = cc.Layer.extend
   _noteOffsetX : 50
   _noteMarginX : 54
-  _noteRemovesTiming : 0.2
+  _noteRemovesTiming : 0.35
   _noteMaskHeight : 190
   _playTime : 0
   _timeLabel : null
@@ -19,8 +19,8 @@ gameLayer = cc.Layer.extend
     index : 0
   _judgeLabel : null
   _threshold :
-    great : 0.15
-    good : 0.3
+    great : 0.175
+    good : 0.35
   _combo : 0
   _comboLabel : null
   _startTime : 0
