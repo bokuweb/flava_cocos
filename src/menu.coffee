@@ -306,6 +306,7 @@ menu = cc.Layer.extend
     s = target.getContentSize()
     rect = cc.rect 0, 0, s.width, s.height
     if cc.rectContainsPoint rect, locationInNode
+      @_music.playEffect res.selectEffect
       if target.sequence is "next"
         if @_showPageNum < @_maxPageNum
           @_showPageNum++

@@ -71,6 +71,7 @@ public class AppActivity extends Cocos2dxActivity {
     }
 
     //戻るボタン（Backキー）押下で広告を表示
+    /*
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -86,6 +87,26 @@ public class AppActivity extends Cocos2dxActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }*/
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (event.getAction() == KeyEvent.ACTION_UP) {
+            switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_BACK:
+                //3. 広告表示
+                ImobileSdkAd.showAdForce(this, IMOBILE_INTERSTITIAL_SID, new ImobileSdkAdListener() {
+                    //4.広告が閉じられた場合（閉じるボタン、もしくはクリックボタンがタップされた場合）
+                    @Override
+                    public void onAdCloseCompleted() {
+                        //5.広告が閉じられた場合、Activityを終了させます
+                        AppActivity.this.finish();
+                    }
+                });
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
     }
 
     @Override

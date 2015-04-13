@@ -2,7 +2,7 @@ gameLayer = cc.Layer.extend
   _noteOffsetX : 50
   _noteMarginX : 54
   _noteRemovesTiming : 0.35
-  _noteMaskHeight : 190
+  _noteMaskHeight : 160
   _playTime : 0
   _timeLabel : null
   _debugLabel : null
