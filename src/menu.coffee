@@ -296,7 +296,7 @@ menu = cc.Layer.extend
 
   _gameStart : ->
     game = new gameScene()
-    game.init @_shownMusicItem[@_selected].info
+    game.init g_musicList[@_selected]
     @_selected = null
     cc.director.runScene new cc.TransitionFade(1.2, game)
 
