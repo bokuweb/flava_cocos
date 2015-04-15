@@ -280,14 +280,20 @@ gameLayer = cc.Layer.extend
           key : @_note.key[@_note.index]
 
         @_note.active.push note
-        cc.eventManager.addListener eventListener.clone(),  note
+        cc.eventManager.addListener eventListener.clone(), note
         @addChild note, 10
+        @scheduleOnce @_removeNote.bind(@, note, @_note.index), 10
         @_note.index++
       return
 
+  _removeNote : (note, index)->
+    @removeChild note
+    @_note.active[index] = null
+    
+
   _removeNoteIfTimeOver : ->
     note = @_note
-    for value,i in note.active
+    for value,i in note.active when value?
       if value?.timing + @_noteRemovesTiming < @_getCurrentTime() and not value.removed
         value.runAction(
           cc.sequence(
@@ -313,7 +319,7 @@ gameLayer = cc.Layer.extend
     note = @_note
     targetY = @_targetY
     threshold = @_threshold
-    for value,i in note.active
+    for value,i in note.active when value?
       if value.timing > @_getCurrentTime()
         unless value.clear
           value.y = (value.timing - @_getCurrentTime()) * note.speed + targetY
@@ -329,16 +335,16 @@ gameLayer = cc.Layer.extend
   _judgeNote : ->
     note = @_note
     threshold = @_threshold
-    for value,i in note.active
+    for value,i in note.active when value?
       if value.clear and not value.hasAnimationStarted and not value.removed
         value.runAction cc.spawn(cc.fadeOut(0.3), cc.scaleBy(0.3, 2, 2))
+        value.removed = true
         value.hasAnimationStarted = true
         if -threshold.great < (value.timing - value.clearTime) < threshold.great
           judgement = "Great"
           @_score.real += 100000 / @_note.timing.length
           @_combo++
           @_judgeCount.great++
-          cc.log @_score.real
         else if -threshold.good < (value.timing - value.clearTime) < threshold.good
           judgement = "Good"
           @_score.real += 70000 / @_note.timing.length
@@ -404,7 +410,7 @@ gameLayer = cc.Layer.extend
             @_music.stopMusic()
             gameOver = new gameOverScene()
             gameOver.init @_musicInfo.id, 
-              score : @_score.display
+              score : ~~@_score.display
               great : @_judgeCount.great
               good  : @_judgeCount.good
               bad   : @_judgeCount.bad
