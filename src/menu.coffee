@@ -23,6 +23,7 @@ menu = cc.Layer.extend
   ctor: -> @_super()
 
   _init: ->
+
     @_volume = 0.5
     @_selected = null
     @_addBackground()
