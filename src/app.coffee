@@ -236,7 +236,7 @@ gameLayer = cc.Layer.extend
     highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _addStartButton : ->
-    @startButton = new cc.LabelTTF "0", "res/fonts/quicksandbook.ttf", 12
+    @startButton = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 14,  cc.size(318, 60)
     @startButton.attr
       x : cc.winSize.width / 2
       y : cc.winSize.height / 2
