@@ -38,8 +38,7 @@ menu = cc.Layer.extend
       onTouchBegan: @_onTouchBeganPager.bind(@)
     @_shownMusicItem.length = 0
     @_showMusicItem 0
-
-    @_nextButton ?= new cc.LabelTTF "next > ", "res/fonts/quicksandbold.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+    @_nextButton ?= new cc.LabelTTF "next > ", "res/fonts/quicksandbold.ttf", 11, cc.size(0,30), cc.TEXT_ALIGNMENT_LEFT
     @_nextButton.attr
       x : 280
       y : cc.director.getWinSize().height - 85
@@ -50,7 +49,7 @@ menu = cc.Layer.extend
     cc.eventManager.addListener pagerToucheventListener.clone(), @_nextButton
     @addChild @_nextButton, @_nextButtonZIndex
 
-    @_previousButton ?= new cc.LabelTTF "< previous ","res/fonts/quicksandbold.ttf", 11, cc.size(0,0), cc.TEXT_ALIGNMENT_LEFT
+    @_previousButton ?= new cc.LabelTTF "< previous ","res/fonts/quicksandbold.ttf", 11, cc.size(0,30), cc.TEXT_ALIGNMENT_LEFT
     @_previousButton.attr
       x : 52
       y : cc.director.getWinSize().height - 85

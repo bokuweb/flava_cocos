@@ -9,14 +9,14 @@ Start = cc.Layer.extend
     logo = cc.Sprite.create res.logo
     logo.x = cc.director.getWinSize().width / 2
     logo.y = cc.director.getWinSize().height / 2
+    logo.scale = 1.2
     @addChild  logo, 1
-
     bg = cc.Sprite.create res.backgroundImage
     bg.x = cc.director.getWinSize().width / 2
     bg.y = cc.director.getWinSize().height / 2
     @addChild bg, 0
 
-    label = new cc.LabelTTF "please, touch here to start","res/fonts/quicksandbook.ttf", 11
+    label = new cc.LabelTTF "please, touch here to start","res/fonts/quicksandbold.ttf", 12
     label.attr
       x : cc.director.getWinSize().width / 2
       y : cc.director.getWinSize().height / 2 - 30

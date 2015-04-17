@@ -79,9 +79,10 @@ gameLayer = cc.Layer.extend
       y : cc.director.getWinSize().height - 40
     cc.eventManager.addListener closeToucheventListener.clone(), closeButton
     @addChild closeButton, 1
+    @schedule @_measureMusicTime, 0.001
 
   update: ->
-    @_measureMusicTime()
+    #@_measureMusicTime()
     @_appendNote()
     @_moveNote()
     @_removeNoteIfTimeOver()
@@ -236,7 +237,7 @@ gameLayer = cc.Layer.extend
     highScore.runAction cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1))
 
   _addStartButton : ->
-    @startButton = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 14,  cc.size(318, 60)
+    @startButton = new cc.LabelTTF "0", "res/fonts/quicksandbold.ttf", 14,  cc.size(318, 60), cc.TEXT_ALIGNMENT_CENTER
     @startButton.attr
       x : cc.winSize.width / 2
       y : cc.winSize.height / 2
