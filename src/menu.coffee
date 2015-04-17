@@ -41,7 +41,7 @@ menu = cc.Layer.extend
     @_nextButton ?= new cc.LabelTTF "next > ", "res/fonts/quicksandbold.ttf", 11, cc.size(0,30), cc.TEXT_ALIGNMENT_LEFT
     @_nextButton.attr
       x : 280
-      y : cc.director.getWinSize().height - 85
+      y : cc.director.getWinSize().height - 90
       sequence : "next"
       scale : 1
     @_nextButton.setColor cc.color(25,25,25,255)
@@ -52,7 +52,7 @@ menu = cc.Layer.extend
     @_previousButton ?= new cc.LabelTTF "< previous ","res/fonts/quicksandbold.ttf", 11, cc.size(0,30), cc.TEXT_ALIGNMENT_LEFT
     @_previousButton.attr
       x : 52
-      y : cc.director.getWinSize().height - 85
+      y : cc.director.getWinSize().height - 90
       sequence : "previous"
       scale : 0
     @_previousButton.setColor cc.color(25,25,25,255)
