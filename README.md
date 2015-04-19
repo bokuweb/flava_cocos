@@ -2,7 +2,7 @@
 
 ## What's flavabeats
 
-flavabeats is music game, created by cocos2d-JS v3.3
+flavabeats is music android game app, created by cocos2d-JS v3.3
 
 ## App Page
 
