@@ -1,4 +1,7 @@
-# flava_cocos
+# flavabeats
+
+
+## License
 
 The MIT License (MIT)
 
