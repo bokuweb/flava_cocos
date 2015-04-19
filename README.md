@@ -1,5 +1,17 @@
 # flavabeats
 
+## What's flavabeats
+
+flavabeats is music game, created by cocos2d-JS v3.3
+
+## App Page
+
+https://play.google.com/store/apps/details?id=org.cocos2dx.flavabeats
+
+## Using
+
+CoffeeScript v1.8.0
+cocos2d-JS v3.3
 
 ## License
 
